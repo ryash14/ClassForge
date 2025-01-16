@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings Page</title>
+    <link rel="stylesheet" href="/src/output.css" />
+    <style>
+      /* Custom scrollbar for all elements */
+      ::-webkit-scrollbar {
+        width: 12px; /* Set the width of the scrollbar */
+        height: 12px; /* Set the height of the scrollbar (for horizontal scrolling) */
+      }
+
+      /* Track (background) */
+      ::-webkit-scrollbar-track {
+        background: #1a1a1a; /* Darker track to blend with gray-900 background */
+        border-radius: 10px; /* Rounded corners */
+      }
+
+      /* Handle (the draggable part) */
+      ::-webkit-scrollbar-thumb {
+        background: #fbbf24; /* Yellow color to match the button color */
+        border-radius: 10px; /* Rounded corners */
+        border: 3px solid #1a1a1a; /* Adds space around the thumb */
+        transition: background 0.3s ease; /* Smooth transition effect */
+      }
+
+      /* Handle when hovering */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #f59e0b; /* Darker yellow when hovering over the handle */
+      }
+
+      /* Optional: For horizontal scrollbars */
+      ::-webkit-scrollbar-horizontal {
+        height: 8px; /* Height of horizontal scrollbar */
+      }
+
+      /* Optional: For vertical scrollbars */
+      ::-webkit-scrollbar-vertical {
+        width: 8px; /* Width of vertical scrollbar */
+      }
+    </style>
+    <style>
+      /* Custom Focused Input */
+      .input-field:focus {
+        outline: none;
+        border-color: #f59e0b;
+        background-color: #2d2d2d;
+      }
+
+      .toggle input:checked ~ .toggle-label {
+        background-color: #f59e0b;
+      }
+
+      .toggle-label {
+        background-color: #2d2d2d;
+        border-radius: 9999px;
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 25px;
+        transition: background-color 0.3s ease;
+      }
+
+      .toggle-label::before {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 19px;
+        height: 19px;
+        border-radius: 9999px;
+        background-color: white;
+        transition: transform 0.3s ease;
+      }
+
+      .toggle input:checked ~ .toggle-label::before {
+        transform: translateX(25px);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-gray-300 font-sans">
+    <div
+      class="max-w-4xl w-full p-8 bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl shadow-lg mx-auto mt-12"
+    >
+      <h1 class="text-4xl font-extrabold text-white text-center mb-12">
+        Account Settings
+      </h1>
+
+      <!-- General Settings Section -->
+      <div class="bg-gray-800 p-8 rounded-xl mb-8 shadow-lg">
+        <h3 class="text-2xl font-semibold text-yellow-500 mb-6">
+          General Settings
+        </h3>
+
+        <div class="space-y-8">
+          <!-- Username -->
+          <div>
+            <label for="username" class="text-lg text-gray-200">Username</label>
+            <input
+              type="text"
+              id="username"
+              class="input-field w-full p-4 mt-2 bg-gray-700 rounded-lg border border-gray-600 focus:ring-2 focus:ring-yellow-500"
+              placeholder="Enter your username"
+            />
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label for="email" class="text-lg text-gray-200">Email</label>
+            <input
+              type="email"
+              id="email"
+              class="input-field w-full p-4 mt-2 bg-gray-700 rounded-lg border border-gray-600 focus:ring-2 focus:ring-yellow-500"
+              placeholder="Enter your email"
+            />
+          </div>
+
+          <!-- Password -->
+          <div>
+            <label for="password" class="text-lg text-gray-200">Password</label>
+            <input
+              type="password"
+              id="password"
+              class="input-field w-full p-4 mt-2 bg-gray-700 rounded-lg border border-gray-600 focus:ring-2 focus:ring-yellow-500"
+              placeholder="Enter your password"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Notification Settings Section -->
+      <div class="bg-gray-800 p-8 rounded-xl mb-8 shadow-lg">
+        <h3 class="text-2xl font-semibold text-yellow-500 mb-6">
+          Notification Settings
+        </h3>
+
+        <div class="space-y-8">
+          <!-- Email Notifications -->
+          <div class="flex justify-between items-center">
+            <label class="text-lg text-gray-200" for="email-notifications"
+              >Enable Email Notifications</label
+            >
+            <div class="toggle">
+              <input type="checkbox" id="email-notifications" class="hidden" />
+              <label for="email-notifications" class="toggle-label"></label>
+            </div>
+          </div>
+
+          <!-- Push Notifications -->
+          <div class="flex justify-between items-center">
+            <label class="text-lg text-gray-200" for="push-notifications"
+              >Enable Push Notifications</label
+            >
+            <div class="toggle">
+              <input type="checkbox" id="push-notifications" class="hidden" />
+              <label for="push-notifications" class="toggle-label"></label>
+            </div>
+          </div>
+
+          <!-- SMS Notifications -->
+          <div class="flex justify-between items-center">
+            <label class="text-lg text-gray-200" for="sms-notifications"
+              >Enable SMS Notifications</label
+            >
+            <div class="toggle">
+              <input type="checkbox" id="sms-notifications" class="hidden" />
+              <label for="sms-notifications" class="toggle-label"></label>
+            </div>
+          </div>
+
+          <!-- Sounds -->
+          <div class="flex justify-between items-center">
+            <label class="text-lg text-gray-200" for="notification-sounds"
+              >Enable Notification Sounds</label
+            >
+            <div class="toggle">
+              <input type="checkbox" id="notification-sounds" class="hidden" />
+              <label for="notification-sounds" class="toggle-label"></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Account Settings Section -->
+      <div class="bg-gray-800 p-8 rounded-xl mb-8 shadow-lg">
+        <h3 class="text-2xl font-semibold text-yellow-500 mb-6">
+          Account Settings
+        </h3>
+
+        <div class="space-y-8">
+          <!-- Preferred Language -->
+          <div>
+            <label for="language" class="text-lg text-gray-200"
+              >Preferred Language</label
+            >
+            <select
+              id="language"
+              class="input-field w-full p-4 mt-2 bg-gray-700 rounded-lg border border-gray-600 focus:ring-2 focus:ring-yellow-500"
+            >
+              <option value="en">English</option>
+              <option value="es">Spanish</option>
+              <option value="fr">French</option>
+              <option value="de">German</option>
+            </select>
+          </div>
+
+          <!-- Timezone -->
+          <div>
+            <label for="timezone" class="text-lg text-gray-200">Timezone</label>
+            <select
+              id="timezone"
+              class="input-field w-full p-4 mt-2 bg-gray-700 rounded-lg border border-gray-600 focus:ring-2 focus:ring-yellow-500"
+            >
+              <option value="UTC">UTC</option>
+              <option value="EST">EST</option>
+              <option value="PST">PST</option>
+              <option value="CET">CET</option>
+            </select>
+          </div>
+
+          <!-- Theme Preferences -->
+          <div class="flex justify-between items-center">
+            <label class="text-lg text-gray-200" for="dark-theme"
+              >Enable Dark Theme</label
+            >
+            <div class="toggle">
+              <input type="checkbox" id="dark-theme" class="hidden" />
+              <label for="dark-theme" class="toggle-label"></label>
+            </div>
+          </div>
+
+          <!-- Two Factor Authentication -->
+          <div class="flex justify-between items-center">
+            <label class="text-lg text-gray-200" for="two-factor-auth"
+              >Enable Two-Factor Authentication</label
+            >
+            <div class="toggle">
+              <input type="checkbox" id="two-factor-auth" class="hidden" />
+              <label for="two-factor-auth" class="toggle-label"></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security Settings Section -->
+      <div class="bg-gray-800 p-8 rounded-xl mb-8 shadow-lg">
+        <h3 class="text-2xl font-semibold text-yellow-500 mb-6">
+          Security Settings
+        </h3>
+
+        <div class="space-y-8">
+          <!-- Password Recovery -->
+          <div>
+            <label for="password-recovery" class="text-lg text-gray-200"
+              >Password Recovery Email</label
+            >
+            <input
+              type="email"
+              id="password-recovery"
+              class="input-field w-full p-4 mt-2 bg-gray-700 rounded-lg border border-gray-600 focus:ring-2 focus:ring-yellow-500"
+              placeholder="Enter recovery email"
+            />
+          </div>
+
+          <!-- Backup Codes -->
+          <div>
+            <label for="backup-codes" class="text-lg text-gray-200"
+              >Backup Codes</label
+            >
+            <input
+              type="text"
+              id="backup-codes"
+              class="input-field w-full p-4 mt-2 bg-gray-700 rounded-lg border border-gray-600 focus:ring-2 focus:ring-yellow-500"
+              placeholder="Enter your backup codes"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Save Settings Button -->
+      <div class="flex justify-center mt-6">
+        <button
+          id="save-settings"
+          class="bg-yellow-500 text-gray-900 hover:bg-yellow-400 py-3 px-10 rounded-lg text-lg transition-all duration-300 transform hover:scale-105"
+        >
+          Save Settings
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // Handle the save settings action
+      function saveSettings() {
+        const username = document.getElementById("username").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const language = document.getElementById("language").value;
+        const timezone = document.getElementById("timezone").value;
+        const emailNotifications = document.getElementById(
+          "email-notifications"
+        ).checked;
+        const pushNotifications =
+          document.getElementById("push-notifications").checked;
+        const smsNotifications =
+          document.getElementById("sms-notifications").checked;
+        const notificationSounds = document.getElementById(
+          "notification-sounds"
+        ).checked;
+        const darkTheme = document.getElementById("dark-theme").checked;
+        const twoFactorAuth =
+          document.getElementById("two-factor-auth").checked;
+        const passwordRecovery =
+          document.getElementById("password-recovery").value;
+        const backupCodes = document.getElementById("backup-codes").value;
+
+        // For now, just log the settings (you would send this to the backend in a real app)
+        console.log("Settings Saved:");
+        console.log("Username:", username);
+        console.log("Email:", email);
+        console.log("Password:", password);
+        console.log("Language:", language);
+        console.log("Timezone:", timezone);
+        console.log("Email Notifications:", emailNotifications);
+        console.log("Push Notifications:", pushNotifications);
+        console.log("SMS Notifications:", smsNotifications);
+        console.log("Notification Sounds:", notificationSounds);
+        console.log("Dark Theme:", darkTheme);
+        console.log("Two-Factor Authentication:", twoFactorAuth);
+        console.log("Password Recovery Email:", passwordRecovery);
+        console.log("Backup Codes:", backupCodes);
+
+        // Show confirmation message
+        alert("Settings have been saved successfully!");
+      }
+
+      // Attach the saveSettings function to the button
+      document
+        .getElementById("save-settings")
+        .addEventListener("click", saveSettings);
+    </script>
+  </body>
+</html>

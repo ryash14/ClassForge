@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="/src/output.css" />
+    <!-- Optional: Include Font Awesome for icons -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Custom scrollbar for all elements */
+      ::-webkit-scrollbar {
+        width: 12px; /* Set the width of the scrollbar */
+        height: 12px; /* Set the height of the scrollbar (for horizontal scrolling) */
+      }
+
+      /* Track (background) */
+      ::-webkit-scrollbar-track {
+        background: #1a1a1a; /* Darker track to blend with gray-900 background */
+        border-radius: 10px; /* Rounded corners */
+      }
+
+      /* Handle (the draggable part) */
+      ::-webkit-scrollbar-thumb {
+        background: #fbbf24; /* Yellow color to match the button color */
+        border-radius: 10px; /* Rounded corners */
+        border: 3px solid #1a1a1a; /* Adds space around the thumb */
+        transition: background 0.3s ease; /* Smooth transition effect */
+      }
+
+      /* Handle when hovering */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #f59e0b; /* Darker yellow when hovering over the handle */
+      }
+
+      /* Optional: For horizontal scrollbars */
+      ::-webkit-scrollbar-horizontal {
+        height: 8px; /* Height of horizontal scrollbar */
+      }
+
+      /* Optional: For vertical scrollbars */
+      ::-webkit-scrollbar-vertical {
+        width: 8px; /* Width of vertical scrollbar */
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-white font-sans">
+    <nav class="navbar bg-gray-900 border-gray-200 dark:bg-gray-900">
+      <div
+        class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
+      >
+        <a
+          href="index.html"
+          class="flex items-center space-x-3 rtl:space-x-reverse"
+        >
+          <!-- Logo Image with resized size on smaller screens -->
+          <img
+            src="./images/logo.png"
+            class="h-8 sm:h-6 md:h-8 lg:h-8 xl:h-8 2xl:h-8 3xl:h-8 sm:h-6"
+            alt="Brand Logo"
+            id="logoImage"
+          />
+        </a>
+
+        <div
+          class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse"
+          id="authContainer"
+        >
+          <!-- Dynamic content will be injected here -->
+        </div>
+        <div
+          class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+          id="navbar-menu"
+        >
+          <ul
+            class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-700 rounded-lg bg-gray-900 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-gray-900 dark:bg-gray-900 md:dark:bg-gray-900 dark:border-gray-700"
+            style="font-size: 17.73px"
+          >
+            <li>
+              <a
+                href="index.html"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-yellow-700 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >Home</a
+              >
+            </li>
+            <li>
+              <a
+                href="about.html"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-yellow-700 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                aria-current="page"
+                >About Us</a
+              >
+            </li>
+            <li>
+              <a
+                href="services.html"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-yellow-700 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >Services</a
+              >
+            </li>
+            <li>
+              <a
+                href="pricing.html"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-yellow-700 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >Pricing</a
+              >
+            </li>
+            <li>
+              <a
+                href="contact.html"
+                class="block py-2 px-3 text-white bg-yellow-700 rounded md:bg-transparent md:text-yellow-700 md:p-0 md:dark:text-yellow-500"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <section class="py-16 px-8">
+      <div class="max-w-screen-xl mx-auto">
+        <div class="text-center mb-12">
+          <!-- Changed font-family for heading -->
+          <h2
+            class="text-4xl font-bold text-yellow-500"
+            style="font-family: system-ui, sans-serif"
+          >
+            Contact Us
+          </h2>
+          <p class="text-lg text-gray-300 mt-2">
+            We'd love to hear from you! Fill out the form or view our location
+            on the map.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <!-- Contact Form -->
+          <div class="bg-gray-800 p-8 rounded-lg shadow-lg">
+            <h3 class="text-2xl font-semibold text-yellow-500 mb-6">
+              Get in Touch
+            </h3>
+            <form action="#" method="POST">
+              <div class="mb-6">
+                <label for="name" class="block text-gray-300 font-medium mb-2"
+                  >Full Name</label
+                >
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  class="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 text-white placeholder-gray-400"
+                  placeholder="Enter your full name"
+                />
+              </div>
+              <div class="mb-6">
+                <label for="email" class="block text-gray-300 font-medium mb-2"
+                  >Email Address</label
+                >
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  class="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 text-white placeholder-gray-400"
+                  placeholder="Enter your email address"
+                />
+              </div>
+              <div class="mb-6">
+                <label
+                  for="message"
+                  class="block text-gray-300 font-medium mb-2"
+                  >Your Message</label
+                >
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="6"
+                  required
+                  class="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 text-white placeholder-gray-400"
+                  placeholder="Write your message"
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                class="w-full bg-yellow-500 text-gray-900 p-4 rounded-lg hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              >
+                Send Message
+              </button>
+            </form>
+          </div>
+
+          <!-- Map Section -->
+          <div class="bg-gray-800 p-8 rounded-lg shadow-lg">
+            <h3 class="text-2xl font-semibold text-yellow-500 mb-6">
+              Our Location
+            </h3>
+            <!-- Increased height of map with responsive adjustments -->
+            <div
+              class="relative w-full h-96 sm:h-80 md:h-96 rounded-lg overflow-hidden"
+            >
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8612.40125938347!2d78.39259928664944!3d17.449634617835684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb99daeaebd2c7%3A0xae93b78392bafbc2!2sHyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1735231076634!5m2!1sen!2sin"
+                width="100%"
+                height="100%"
+                style="border: 0"
+                allowfullscreen=""
+                loading="lazy"
+              >
+              </iframe>
+            </div>
+            <p class="mt-4 text-gray-400 text-sm">
+              Visit our office in the heart of Hyderabad, India. Easily
+              accessible by public transport, our office is located near key
+              landmarks with parking available for visitors.
+            </p>
+            <div class="mt-4">
+              <h4 class="text-lg font-semibold text-yellow-500">
+                Office Hours
+              </h4>
+              <p class="text-gray-300">Monday to Friday: 9 AM - 6 PM</p>
+            </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer (Optional) -->
+    <footer class="flex flex-col space-y-10 justify-center m-10">
+      <nav
+        class="flex justify-center flex-wrap gap-6 text-white-500 font-medium"
+        style="color: white"
+      >
+        <a class="hover:text-yellow-700" href="index.html">Home</a>
+        <a class="hover:text-yellow-700" href="about.html">About</a>
+        <a class="hover:text-yellow-700" href="services.html">Services</a>
+        <a class="hover:text-yellow-700" href="pricing.html">Pricing</a>
+        <a class="hover:text-yellow-700" href="contact.html">Contact</a>
+      </nav>
+
+      <div class="flex justify-center space-x-5">
+        <a
+          href="https://facebook.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src="https://img.icons8.com/fluent/30/000000/facebook-new.png" />
+        </a>
+        <a
+          href="https://linkedin.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src="https://img.icons8.com/fluent/30/000000/linkedin-2.png" />
+        </a>
+        <a
+          href="https://instagram.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="https://img.icons8.com/fluent/30/000000/instagram-new.png"
+          />
+        </a>
+        <a
+          href="https://messenger.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="https://img.icons8.com/fluent/30/000000/facebook-messenger--v2.png"
+          />
+        </a>
+        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.icons8.com/fluent/30/000000/twitter.png" />
+        </a>
+      </div>
+      <p class="text-center text-gray-700 font-medium" style="color: white">
+        &copy; 2024 <span style="color: #d97706">ClassForge </span>All rights
+        reserved.
+      </p>
+    </footer>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-app.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+        signOut,
+      } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-auth.js";
+
+      // Firebase Configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBjHs-yazGlHa9CWWtcv0-GS5zGcv_JRMc",
+        authDomain: "logindemo-20277.firebaseapp.com",
+        projectId: "logindemo-20277",
+        storageBucket: "logindemo-20277.appspot.com",
+        messagingSenderId: "290534553076",
+        appId: "1:290534553076:web:f35bc6a3f5041319e8f5a1",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth();
+
+      const authContainer = document.getElementById("authContainer");
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // If logged in
+          const profileHTML = `
+    <div class="relative">
+      <img
+        src="${
+          user.photoURL ||
+          "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
+        }"
+        alt="Profile Photo"
+        class="w-10 h-10 rounded-full cursor-pointer"
+        id="profilePhoto"
+      />
+      <div
+        id="profileDropdown"
+        class="absolute right-0 mt-2 bg-gray-800 text-white shadow-lg rounded w-60 hidden z-10"
+      >
+        <div class="px-4 py-2 text-sm">
+          <strong class="text-white">${user.username}</strong>
+          <p class="text-gray-400 text-xs">${user.email}</p>
+        </div>
+        <hr class="my-1 border-gray-600" />
+        <a
+          href="dashboard.html"
+          class="block px-4 py-2 text-gray-300 hover:bg-gray-700"
+        >
+          Dashboard
+        </a>
+        <a
+          href="settings.html"
+          class="block px-4 py-2 text-gray-300 hover:bg-gray-700"
+        >
+          Settings
+        </a>
+        <button
+          id="signOutButton"
+          class="block w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-700"
+        >
+          Sign Out
+        </button>
+      </div>
+    </div>
+  `;
+
+          authContainer.innerHTML = profileHTML;
+
+          const profilePhoto = document.getElementById("profilePhoto");
+          const profileDropdown = document.getElementById("profileDropdown");
+
+          // Toggle dropdown visibility on click
+          profilePhoto.addEventListener("click", () => {
+            profileDropdown.classList.toggle("hidden");
+          });
+
+          // Close dropdown if clicked outside
+          document.addEventListener("click", (e) => {
+            if (
+              !profileDropdown.contains(e.target) &&
+              !profilePhoto.contains(e.target)
+            ) {
+              profileDropdown.classList.add("hidden");
+            }
+          });
+
+          // Add Sign Out functionality
+          const signOutButton = document.getElementById("signOutButton");
+          signOutButton.addEventListener("click", async () => {
+            await signOut(auth);
+            window.location.reload();
+          });
+        } else {
+          // If not logged in
+          authContainer.innerHTML = `
+              <a
+                href="signin.html"
+                id="loginButton"
+                class="text-white hover:bg-gray-100 hover:text-gray-700 rounded px-4 py-2 transition-colors duration-200"
+  
+                >Log In</a
+              >
+              <a
+                href="signup.html"
+                class="text-gray-700 bg-yellow-500 hover:bg-yellow-700 text-white rounded px-4 py-2 transition-colors duration-200 hidden sm:block"
+                >Sign Up</a
+              >
+            `;
+        }
+      });
+    </script>
+    <script type="module" src="checkingRole.js"></script>
+  </body>
+</html>

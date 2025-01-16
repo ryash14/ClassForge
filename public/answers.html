@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get Instant Answers!</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #1a202c; /* Dark background for the page */
+        color: #e2e8f0; /* Light text color for contrast */
+      }
+
+      .button {
+        background-color: #2563eb; /* Original blue button color */
+        color: white;
+        font-weight: 600;
+        padding: 12px 18px;
+        border-radius: 8px;
+        width: 100%;
+        transition: all 0.3s;
+      }
+
+      .button:hover {
+        background-color: #1d4ed8;
+        cursor: pointer;
+        transform: translateY(-2px);
+      }
+
+      .loading-spinner {
+        border: 4px solid #2d3748; /* Darker border color for spinner */
+        border-top: 4px solid #2563eb; /* Keep the blue color for the spinner */
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .image-preview {
+        margin-top: 20px;
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        justify-items: center;
+      }
+
+      .image-preview img {
+        width: 100%;
+        max-width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid #4a5568; /* Darker border for images */
+      }
+
+      .input-container {
+        padding: 2rem;
+        background-color: #2d3748; /* Dark background for the form container */
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      textarea,
+      input[type="file"] {
+        width: 100%;
+        padding: 12px;
+        margin-top: 8px;
+        border-radius: 8px;
+        border: 1px solid #4a5568; /* Dark border */
+        background-color: #4a5568; /* Dark background for text inputs */
+        color: #e2e8f0; /* Light text color */
+      }
+
+      textarea:focus,
+      input[type="file"]:focus {
+        outline: none;
+        border-color: #2563eb;
+        background-color: #2b3a47; /* Darker background when focused */
+      }
+
+      .file-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid #4a5568; /* Dark border for uploaded images */
+      }
+
+      .file-item span {
+        display: block;
+        margin-top: 10px;
+        color: #e2e8f0; /* Light text color */
+        font-size: 14px;
+      }
+
+      .result-container {
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-word;
+        white-space: pre-wrap;
+        max-width: 100%;
+        padding: 1rem;
+        border: 1px solid #4a5568; /* Darker border */
+        background-color: #2d3748; /* Dark background for result container */
+        border-radius: 8px;
+        margin-top: 2rem;
+        margin-left: 1rem;
+        margin-right: 1rem;
+        color: #e2e8f0; /* Light text color for result text */
+      }
+
+      /* Styling for larger screens */
+      @media (min-width: 1024px) {
+        .result-container {
+          margin-left: 200px;
+          margin-right: 200px;
+          padding: 50px;
+        }
+      }
+
+      #saveResponseBtn {
+        display: none;
+      }
+
+      #heading {
+        display: none;
+      }
+
+      #result {
+        display: none;
+      }
+    </style>
+    <style>
+      /* Custom scrollbar for all elements */
+      ::-webkit-scrollbar {
+        width: 12px; /* Set the width of the scrollbar */
+        height: 12px; /* Set the height of the scrollbar (for horizontal scrolling) */
+      }
+
+      /* Track (background) */
+      ::-webkit-scrollbar-track {
+        background: #1a1a1a; /* Darker track to blend with gray-900 background */
+        border-radius: 10px; /* Rounded corners */
+      }
+
+      /* Handle (the draggable part) */
+      ::-webkit-scrollbar-thumb {
+        background: #fbbf24; /* Yellow color to match the button color */
+        border-radius: 10px; /* Rounded corners */
+        border: 3px solid #1a1a1a; /* Adds space around the thumb */
+        transition: background 0.3s ease; /* Smooth transition effect */
+      }
+
+      /* Handle when hovering */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #f59e0b; /* Darker yellow when hovering over the handle */
+      }
+
+      /* Optional: For horizontal scrollbars */
+      ::-webkit-scrollbar-horizontal {
+        height: 8px; /* Height of horizontal scrollbar */
+      }
+
+      /* Optional: For vertical scrollbars */
+      ::-webkit-scrollbar-vertical {
+        width: 8px; /* Width of vertical scrollbar */
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900">
+    <div class="container mx-auto p-6 bg-gray-900 text-white">
+      <h1 class="text-4xl font-bold text-center text-white mb-8">
+        Ask, Upload, and Discover Answers!
+      </h1>
+
+      <form
+        id="uploadForm"
+        class="input-container max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg"
+      >
+        <div class="mb-6">
+          <label for="prompt" class="block text-lg font-medium text-gray-300">
+            Question:
+          </label>
+          <textarea
+            id="prompt"
+            name="prompt"
+            rows="4"
+            class="w-full mt-2 px-4 py-3 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 bg-gray-700 text-white"
+            placeholder="Type your question here..."
+          ></textarea>
+        </div>
+
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1.5rem 0;
+          "
+        >
+          <div
+            style="flex: 1; border-top: 1px solid #4b5563; margin-right: 10px"
+          ></div>
+          <span
+            style="
+              color: #e5e7eb;
+              font-weight: 600;
+              font-size: 1.1rem;
+              background: #2d3748;
+              padding: 0 10px;
+              border-radius: 12px;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            "
+          >
+            OR
+          </span>
+          <div
+            style="flex: 1; border-top: 1px solid #4b5563; margin-left: 10px"
+          ></div>
+        </div>
+
+        <div class="mb-6">
+          <label for="images" class="block text-lg font-medium text-gray-300">
+            Upload Question:
+          </label>
+          <input
+            type="file"
+            id="images"
+            name="images"
+            accept="image/*"
+            multiple
+            class="mt-2 file:bg-blue-100 file:border-gray-300 file:rounded-lg file:px-4 file:py-2"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="button bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 focus:outline-none"
+        >
+          Submit
+        </button>
+      </form>
+
+      <h2
+        class="text-2xl font-semibold text-center mt-8 text-white"
+        id="heading"
+      >
+        Results:
+      </h2>
+      <div id="loading" class="hidden mt-4">
+        <div class="loading-spinner"></div>
+        <p class="text-center text-blue-600 mt-2">Processing...</p>
+      </div>
+      <div id="result" class="result-container mt-6 text-gray-300"></div>
+      <div class="flex justify-center mt-8">
+        <button
+          title="Save"
+          id="saveResponseBtn"
+          class="cursor-pointer flex items-center fill-lime-400 bg-lime-950 hover:bg-lime-900 active:border active:border-lime-400 rounded-md duration-100 p-2"
+        >
+          <svg
+            viewBox="0 -0.5 25 25"
+            height="20px"
+            width="20px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke-width="1.5"
+              d="M18.507 19.853V6.034C18.5116 5.49905 18.3034 4.98422 17.9283 4.60277C17.5532 4.22131 17.042 4.00449 16.507 4H8.50705C7.9721 4.00449 7.46085 4.22131 7.08577 4.60277C6.7107 4.98422 6.50252 5.49905 6.50705 6.034V19.853C6.45951 20.252 6.65541 20.6407 7.00441 20.8399C7.35342 21.039 7.78773 21.0099 8.10705 20.766L11.907 17.485C12.2496 17.1758 12.7705 17.1758 13.113 17.485L16.9071 20.767C17.2265 21.0111 17.6611 21.0402 18.0102 20.8407C18.3593 20.6413 18.5551 20.2522 18.507 19.853Z"
+              clip-rule="evenodd"
+              fill-rule="evenodd"
+            ></path>
+          </svg>
+          <span class="text-sm text-lime-400 font-bold pr-1"
+            >Save Response</span
+          >
+        </button>
+      </div>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-app.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-auth.js";
+      import {
+        getFirestore,
+        doc,
+        setDoc,
+      } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-firestore.js";
+
+      // Firebase Configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBjHs-yazGlHa9CWWtcv0-GS5zGcv_JRMc",
+        authDomain: "logindemo-20277.firebaseapp.com",
+        projectId: "logindemo-20277",
+        storageBucket: "logindemo-20277.appspot.com",
+        messagingSenderId: "290534553076",
+        appId: "1:290534553076:web:f35bc6a3f5041319e8f5a1",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+      const fileInput = document.getElementById("images");
+
+      // Handle the form submission and trigger the generation process
+      document.getElementById("uploadForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        generate(e);
+      });
+      let promptt;
+      const generate = async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        const promptValue = document.getElementById("prompt").value;
+        const imageFiles = document.getElementById("images").files;
+        promptt = promptValue;
+        // Append the prompt and images to the form data if available
+        if (promptValue) formData.append("prompt", promptValue);
+        for (let file of imageFiles) {
+          formData.append("images", file);
+        }
+
+        // Show the loading spinner and clear any previous results
+        document.getElementById("loading").classList.remove("hidden");
+        document.getElementById("result").innerHTML = "";
+
+        try {
+          // Send the POST request using Axios
+          const response = await axios.post(
+            "http://localhost:3000/generate",
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+
+          // If the response is successful, handle it
+          if (response.status === 200) {
+            const data = response.data; // The response data from the server
+            console.log(data); // Log the response to the console
+
+            // Assuming data.result contains the main result, display it
+            document.getElementById("result").innerHTML = formatOutput(
+              data.result
+            );
+
+            // Show the "Save Response" button and other elements after result generation
+            document.getElementById("saveResponseBtn").style.display = "block";
+            document.getElementById("result").style.display = "block";
+            document.getElementById("heading").style.display = "block";
+
+            // Display image previews if available
+            if (
+              data.images &&
+              Array.isArray(data.images) &&
+              data.images.length > 0
+            ) {
+              data.images.forEach((image) => {
+                const imgElement = document.createElement("img");
+                imgElement.src = image; // Assuming the server sends URLs of images
+                // document.getElementById("imagePreview").appendChild(imgElement);
+              });
+            }
+
+            // If no images are found, set images to an empty array
+            const imagesToSave =
+              data.images && data.images.length > 0 ? data.images : [];
+
+            // Show success message or save the result to Firestore
+            document
+              .getElementById("saveResponseBtn")
+              .addEventListener("click", () => {
+                saveResponse(data.result, imagesToSave);
+              });
+          } else {
+            // Handle unsuccessful responses
+            document.getElementById("result").innerHTML =
+              "Failed to generate result.";
+          }
+        } catch (error) {
+          console.error("Error during Axios request:", error);
+          document.getElementById("result").innerHTML =
+            "An error occurred while processing your request.";
+        } finally {
+          // Hide the loading spinner once the request is complete
+          document.getElementById("loading").classList.add("hidden");
+        }
+
+        const saveResponse = async (result, images) => {
+          const user = auth.currentUser;
+
+          if (user) {
+            const userId = user.uid;
+            console.log(userId);
+            const timestamp = new Date();
+
+            // Ensure that images is an array before saving
+            if (!Array.isArray(images)) {
+              images = [];
+            }
+
+            // Save the result and images to Firestore
+            try {
+              const responseData = {
+                userId: userId,
+                result: result,
+                timestamp: timestamp,
+              };
+
+              // Save to Firestore under a "responses" collection
+              await setDoc(
+                doc(db, "responses", userId + "_" + timestamp.toISOString()),
+                responseData
+              );
+
+              // Display a success message after saving
+              Swal.fire({
+                icon: "success",
+                title: "Response Saved Successfully",
+                text: "Your generated result has been saved.",
+                confirmButtonText: "OK",
+              });
+            } catch (error) {
+              console.error("Error saving to Firestore:", error);
+              Swal.fire({
+                icon: "error",
+                title: "Error Saving Data",
+                text: "An error occurred while saving your result. Please try again.",
+                confirmButtonText: "OK",
+              });
+            }
+          } else {
+            Swal.fire({
+              icon: "warning",
+              title: "Not Logged In",
+              text: "Please sign in to save your response.",
+              confirmButtonText: "Sign In",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = "/signin.html";
+              }
+            });
+          }
+        };
+      };
+
+      // Function to save the generated response to Firestore
+
+      function formatOutput(text) {
+        text = text.replace(/\^([^\s<]+(?:\([^\)]+\))?)/g, "^$1");
+        text = text.replace(/~([^\s<]+(?:\([^\)]+\))?)/g, "~$1");
+        text = text.replace(/</g, "&lt;");
+        text = text.replace(/>/g, "&gt;");
+        text = text.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
+        text = text.replace(/\$\$(.*?)\$\$/g, "\\($1\\)");
+        text = text.replace(/\$\$(.*?)\$\$/g, "\\[$1\\]");
+        text = text.replace(/\$\\boxed\{(.*?)\}\$/g, "($1)");
+        text = text.replace(/```([\s\S]*?)```/g, "<pre><code>$1</code></pre>");
+        text = text.replace(/\n/g, "<br/>");
+        text = text.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
+        text = text.replace(/\\n/g, "<br/>");
+        text = text.replace(/\\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
+        return text;
+      }
+    </script>
+  </body>
+</html>

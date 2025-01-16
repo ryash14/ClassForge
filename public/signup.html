@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signup and Store Data</title>
+    <link rel="stylesheet" href="./styles/signupStyles.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://d2s3ptptdai04x.cloudfront.net/get-flowbite-pro.9fc5b9f6-cb5c-4f28-9d54-389f431da6ab.css?Expires=2033975504&amp;Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9kMnMzcHRwdGRhaTA0eC5jbG91ZGZyb250Lm5ldC9nZXQtZmxvd2JpdGUtcHJvLjlmYzViOWY2LWNiNWMtNGYyOC05ZDU0LTM4OWY0MzFkYTZhYi5jc3MiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjIwMzM5NzU1MDR9fX1dfQ__&amp;Signature=F3cr143nB~iQIHyi8JBu6sBi-bMLMcQMJ6zcr7xJD6ueZSmwZkOnGXQty1ZxjbhWd70vQxulJcUcgfVoDB~PZ-V1BpH9AKNXZRGj37aErVOF75N6wlGHcePn9aHBZCzha7SsHzMhcy7p02GDbHIy~329I7EJeVZmrbOA3ZarzjK3qhtYOOtugDT~Eh7W3qk2rGfp6~RW3VLkXVGk1dATO0KEK2b0rADfG3EWvq20tXKRtqFjyCExZXxI65UZHJPPqMZ~bvYS68wMcXmMxnCGS~k8jJ1YD0FVGJ1BIcAt8cgLOQaTUAc5LPmLZioDJCKZSP0vWvHMA-EU15vHeO~zMg__&amp;Key-Pair-Id=K2J5W1U51CTOXP"
+    />
+    <link rel="stylesheet" href="/src/output.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+      import {
+        getAuth,
+        GoogleAuthProvider,
+        FacebookAuthProvider,
+        signInWithPopup,
+        createUserWithEmailAndPassword,
+      } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+      import {
+        getFirestore,
+        doc,
+        setDoc,
+      } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBjHs-yazGlHa9CWWtcv0-GS5zGcv_JRMc",
+        authDomain: "logindemo-20277.firebaseapp.com",
+        projectId: "logindemo-20277",
+        storageBucket: "logindemo-20277.appspot.com",
+        messagingSenderId: "290534553076",
+        appId: "1:290534553076:web:f35bc6a3f5041319e8f5a1",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth();
+      const db = getFirestore(app);
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const emailInput = document.getElementById("email");
+        const usernameInput = document.getElementById("username");
+        const passwordInput = document.getElementById("password");
+        const roleSelect = document.getElementById("role");
+        const signupButton = document.getElementById("signup");
+
+        signupButton.addEventListener("click", async function (event) {
+          event.preventDefault();
+
+          const email = emailInput.value;
+          const username = usernameInput.value;
+          const password = passwordInput.value;
+          const role = roleSelect.value;
+
+          try {
+            const userCredential = await createUserWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
+            const user = userCredential.user;
+
+            // Store user data in Firestore
+            await setDoc(doc(db, "users", user.uid), {
+              email: email,
+              username: username,
+              role: role,
+              createdAt: new Date(),
+            });
+
+            // SweetAlert2 success message
+            Swal.fire({
+              icon: "success",
+              title: "Signup Successful",
+              text: "User data stored successfully!",
+              confirmButtonText: "Ok", // Customize button text
+              customClass: {
+                confirmButton: "btn-btn-success", // Apply custom styles to success button
+              },
+            }).then(() => {
+              // Redirect to signin.html after clicking "Ok" on the success message
+              window.location.href = "signin.html";
+            });
+            console.log("User signed up:", user);
+          } catch (error) {
+            console.error("Error signing up:", error);
+            // SweetAlert2 error message
+            Swal.fire({
+              icon: "error",
+              title: "Signup Failed",
+              text: `Error: ${error.message}`,
+              confirmButtonText: "Ok", // Customize button text
+              customClass: {
+                confirmButton: "btn-btn-danger", // Apply custom styles to button
+              },
+            });
+          }
+        });
+      });
+      // Google Sign-In
+      document.getElementById("google-login").addEventListener("click", () => {
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider)
+          .then((result) => {
+            Swal.fire({
+              icon: "success",
+              title: "Google Login Successful",
+              text: `Welcome, ${result.user.displayName}`,
+              confirmButtonText: "Ok", // Customize button text
+              customClass: {
+                confirmButton: "btn-btn-success", // Apply custom styles to success button
+              },
+            }).then(() => {
+              window.location.href = "index.html";
+            });
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Google Login Failed",
+              text: error.message,
+              confirmButtonText: "Ok", // Customize button text
+              customClass: {
+                confirmButton: "btn-btn-danger", // Apply custom styles to button
+              },
+            });
+          });
+      });
+
+      // Facebook Sign-In
+      document
+        .getElementById("facebook-login")
+        .addEventListener("click", () => {
+          const provider = new FacebookAuthProvider();
+          signInWithPopup(auth, provider)
+            .then((result) => {
+              Swal.fire({
+                icon: "success",
+                title: "Facebook Login Successful",
+                text: `Welcome, ${result.user.displayName}`,
+                confirmButtonText: "Ok", // Customize button text
+                customClass: {
+                  confirmButton: "btn-btn-success", // Apply custom styles to success button
+                },
+              }).then(() => {
+                window.location.href = "index.html";
+              });
+            })
+            .catch((error) => {
+              Swal.fire({
+                icon: "error",
+                title: "Facebook Login Failed",
+                text: error.message,
+                confirmButtonText: "Ok", // Customize button text
+                customClass: {
+                  confirmButton: "btn-btn-danger", // Apply custom styles to button
+                },
+              });
+            });
+        });
+    </script>
+    <style>
+      /* Custom scrollbar for all elements */
+      ::-webkit-scrollbar {
+        width: 12px; /* Set the width of the scrollbar */
+        height: 12px; /* Set the height of the scrollbar (for horizontal scrolling) */
+      }
+
+      /* Track (background) */
+      ::-webkit-scrollbar-track {
+        background: #1a1a1a; /* Darker track to blend with gray-900 background */
+        border-radius: 10px; /* Rounded corners */
+      }
+
+      /* Handle (the draggable part) */
+      ::-webkit-scrollbar-thumb {
+        background: #fbbf24; /* Yellow color to match the button color */
+        border-radius: 10px; /* Rounded corners */
+        border: 3px solid #1a1a1a; /* Adds space around the thumb */
+        transition: background 0.3s ease; /* Smooth transition effect */
+      }
+
+      /* Handle when hovering */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #f59e0b; /* Darker yellow when hovering over the handle */
+      }
+
+      /* Optional: For horizontal scrollbars */
+      ::-webkit-scrollbar-horizontal {
+        height: 8px; /* Height of horizontal scrollbar */
+      }
+
+      /* Optional: For vertical scrollbars */
+      ::-webkit-scrollbar-vertical {
+        width: 8px; /* Width of vertical scrollbar */
+      }
+    </style>
+  </head>
+
+  <body>
+    <section class="bg-gray-900 text-white">
+      <div
+        class="i0EfZzmTLElZVOble53D HV01LldvyEqRHHy0hljF veFXkDzfJN473U3ycrV8 OmM4wtdsNjVR2r7OSzsm RV8RoaI_SlEMC5CEQ3ms S6lqcOV36w1qYVhB_gJM jj0BrgkBpq72EXwWuBh5 _kUFAjExH_qwNelRHnuR"
+      >
+        <div
+          class="jCISvWkW5oStPH6Wrb_H rhHZLKCNkg6rp7jwfB1J RV8RoaI_SlEMC5CEQ3ms yjGyQxv8jnYk9_MGMqLN _Qk4_E9_iLqcHsRZZ4ge lhxYQ_2y3sYNN3W1V_3q _cpMMPjFQqjJu4i0Puod nJQS7QrxrGJ4C_YwVwVY J5z_xpzAk7ofGkPjWqvM Vxu5gt71Zexz5PXSkXLX"
+          style="background-color: #111827"
+        >
+          <a
+            href="#"
+            class="ay0ziTPUL4Ag5d1DkSY7 neyUwteEn7DOg9pBSJJE _9OKVeTXzfSwD_NYO6_G uyo8h_4Kh1IoUwm8bwJI LYMps1kO2vF8HBymW3az g3OYBOqwXUEW4dRGogkH a0Ed69aMSu0vgf4oysz0"
+          >
+            <img
+              class="_vZPglRSyqi4oTXg5L1_ _pwSRUXRHN5bHphyTRKz _gmxfZ2BpOHxa6nWwqBB"
+              src="./images/logo.png"
+              alt="logo"
+              style="width: 100%"
+            />
+          </a>
+          <h1
+            class="rD4HtsUG_hahmbh2Kj09 _e063bssp_1bldcJ6kR0 _WfIfkoGCi0vvUrnNs4M jGqC6Vyq4r7i62RWVQU_ marR_sCaF_d1KewmkXGX g3OYBOqwXUEW4dRGogkH a0Ed69aMSu0vgf4oysz0"
+            style="color: white"
+          >
+            Create your Account
+          </h1>
+          <p
+            class="MxG1ClE4KPrIvlL5_Q5x XdjN1uxS_rsa3F90ox40 K1PPCJwslha8GUIvV_Cr _Rz9TooiK_4jTN_Ub8Gm"
+          >
+            Already have an account?
+            <a
+              href="signin.html"
+              style="color: #d97706"
+              class="_A6LflweZRUwrcL6M2Tk text-primary-600 _5zvlMLkN1qETxEl3IhT dark:text-primary-500"
+              >Login here</a
+            >.
+          </p>
+          <form
+            class="KgBTWt39fdiAC__YVNt8 xXHjLQ2J7cbu8iHm8NVp AuB0Ecr_8CO7ghWxxqa1"
+            action="#"
+          >
+            <div
+              class="i0EfZzmTLElZVOble53D lSg6RHKCkPBz2kSnADor hAFtnIdYDiO6M_67F11P"
+            >
+              <div>
+                <label
+                  for="email"
+                  style="color: white"
+                  class="ttxtqsLWp2pFRX8yUvWd rD4HtsUG_hahmbh2Kj09 MxG1ClE4KPrIvlL5_Q5x _A6LflweZRUwrcL6M2Tk g3OYBOqwXUEW4dRGogkH a0Ed69aMSu0vgf4oysz0"
+                  >Your email</label
+                >
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  class="jCHKuJ3G7rklx_LiAfbf PWreZZgitgAm_Nv4Noh9 T_tFENbpK8DMDNjQRyQa g3OYBOqwXUEW4dRGogkH MxG1ClE4KPrIvlL5_Q5x _Qk4_E9_iLqcHsRZZ4ge focus:ring-primary-600 focus:border-primary-600 ttxtqsLWp2pFRX8yUvWd jCISvWkW5oStPH6Wrb_H _4wtDMQ2AdJOlYvml5sL _t2wg7hRcyKsNN8CSSeU _BIVSYBXQUqEf_ltPrSk _DJ2tfp6E9c_teMKVD3z a0Ed69aMSu0vgf4oysz0 OOJuY9kV1XZH_KV1ElVw FXh9uSTLEhQn4Ek_3flj"
+                  placeholder="example@email.com"
+                  style="background-color: #374151; color: white; border: none"
+                  required=""
+                />
+              </div>
+              <div>
+                <label
+                  for="username"
+                  style="color: white"
+                  class="ttxtqsLWp2pFRX8yUvWd rD4HtsUG_hahmbh2Kj09 MxG1ClE4KPrIvlL5_Q5x _A6LflweZRUwrcL6M2Tk g3OYBOqwXUEW4dRGogkH a0Ed69aMSu0vgf4oysz0"
+                  >Full Name</label
+                >
+                <input
+                  type="text"
+                  name="username"
+                  id="username"
+                  class="jCHKuJ3G7rklx_LiAfbf PWreZZgitgAm_Nv4Noh9 T_tFENbpK8DMDNjQRyQa g3OYBOqwXUEW4dRGogkH MxG1ClE4KPrIvlL5_Q5x _Qk4_E9_iLqcHsRZZ4ge focus:ring-primary-600 focus:border-primary-600 ttxtqsLWp2pFRX8yUvWd jCISvWkW5oStPH6Wrb_H _4wtDMQ2AdJOlYvml5sL _t2wg7hRcyKsNN8CSSeU _BIVSYBXQUqEf_ltPrSk _DJ2tfp6E9c_teMKVD3z a0Ed69aMSu0vgf4oysz0 OOJuY9kV1XZH_KV1ElVw FXh9uSTLEhQn4Ek_3flj"
+                  placeholder="e.g. Bonnie Green"
+                  style="background-color: #374151; color: white; border: none"
+                  required=""
+                />
+              </div>
+              <div>
+                <label
+                  for="role"
+                  style="color: white"
+                  class="ttxtqsLWp2pFRX8yUvWd rD4HtsUG_hahmbh2Kj09 MxG1ClE4KPrIvlL5_Q5x _A6LflweZRUwrcL6M2Tk g3OYBOqwXUEW4dRGogkH eCx_6PNzncAD5yo7Qcic"
+                  >Role</label
+                >
+                <select
+                  id="role"
+                  style="background-color: #374151; color: white; border: none"
+                  class="jCHKuJ3G7rklx_LiAfbf PWreZZgitgAm_Nv4Noh9 T_tFENbpK8DMDNjQRyQa g3OYBOqwXUEW4dRGogkH MxG1ClE4KPrIvlL5_Q5x _Qk4_E9_iLqcHsRZZ4ge XqTQaCRgxrhPloX2lDDg Gzt3yIR6XQkvVjk5M81S ttxtqsLWp2pFRX8yUvWd jCISvWkW5oStPH6Wrb_H _4wtDMQ2AdJOlYvml5sL _t2wg7hRcyKsNN8CSSeU _BIVSYBXQUqEf_ltPrSk _DJ2tfp6E9c_teMKVD3z a0Ed69aMSu0vgf4oysz0 OOJuY9kV1XZH_KV1ElVw FXh9uSTLEhQn4Ek_3flj"
+                >
+                  <option selected="">Choose a role</option>
+                  <option value="student">Student</option>
+                  <option value="teacher">Teacher</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  for="password"
+                  style="color: white"
+                  class="ttxtqsLWp2pFRX8yUvWd rD4HtsUG_hahmbh2Kj09 MxG1ClE4KPrIvlL5_Q5x _A6LflweZRUwrcL6M2Tk g3OYBOqwXUEW4dRGogkH a0Ed69aMSu0vgf4oysz0"
+                  >Password</label
+                >
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="••••••••"
+                  style="background-color: #374151; color: white; border: none"
+                  class="jCHKuJ3G7rklx_LiAfbf PWreZZgitgAm_Nv4Noh9 T_tFENbpK8DMDNjQRyQa g3OYBOqwXUEW4dRGogkH MxG1ClE4KPrIvlL5_Q5x _Qk4_E9_iLqcHsRZZ4ge focus:ring-primary-600 focus:border-primary-600 ttxtqsLWp2pFRX8yUvWd jCISvWkW5oStPH6Wrb_H _4wtDMQ2AdJOlYvml5sL _t2wg7hRcyKsNN8CSSeU _BIVSYBXQUqEf_ltPrSk _DJ2tfp6E9c_teMKVD3z a0Ed69aMSu0vgf4oysz0 OOJuY9kV1XZH_KV1ElVw FXh9uSTLEhQn4Ek_3flj"
+                  required=""
+                />
+              </div>
+            </div>
+            <div class="kqgYncRJQ7spwKfig6It neyUwteEn7DOg9pBSJJE">
+              <div
+                class="jCISvWkW5oStPH6Wrb_H xm7OMZMei4gQKwhsRmfw vyuwQLkFO7jUAv3Xr23z _t2wg7hRcyKsNN8CSSeU"
+              ></div>
+              <div
+                class="bFARDnno0HUtfhktTXfR _F_1gdhzusC6tSOWHtx_ K1PPCJwslha8GUIvV_Cr eCx_6PNzncAD5yo7Qcic"
+              >
+                OR
+              </div>
+              <div
+                class="jCISvWkW5oStPH6Wrb_H xm7OMZMei4gQKwhsRmfw vyuwQLkFO7jUAv3Xr23z _t2wg7hRcyKsNN8CSSeU"
+              ></div>
+            </div>
+            <div class="__Iv72FadFpzwcpFl5_5">
+              <button
+                id="google-login"
+                style="background-color: #374151; color: white; border: none"
+                class="jCISvWkW5oStPH6Wrb_H ay0ziTPUL4Ag5d1DkSY7 neyUwteEn7DOg9pBSJJE _WclR59Ji8jwfmjPtOei _gKcj49wZgnwx1LpcJi6 bFARDnno0HUtfhktTXfR _gmxfZ2BpOHxa6nWwqBB rD4HtsUG_hahmbh2Kj09 MxG1ClE4KPrIvlL5_Q5x _A6LflweZRUwrcL6M2Tk g3OYBOqwXUEW4dRGogkH qHIOIw8TObHgD3VvKa5x yjGyQxv8jnYk9_MGMqLN _Qk4_E9_iLqcHsRZZ4ge PWreZZgitgAm_Nv4Noh9 pxHuWvF853ck68OLN6ef DpMPWwlSESiYA8EE1xKM _xQT_qSXfwWf6ZhwRle4 m_8FxTcpOfmK___hAaJ6 _FONMPVaCsLFJJGDaaIL _bKyZ1er5YE_NnrwOCm9 __8kBLtrR_iuU2wW25Lp _cpMMPjFQqjJu4i0Puod eCx_6PNzncAD5yo7Qcic _BIVSYBXQUqEf_ltPrSk DTyjKhtXBNaebZa5L0l9 _OovBxfPdK7Rjv2nh2Ot"
+              >
+                <svg
+                  class="eUuXwBkW5W4__eatjSfd RRXFBumaW2SHdseZaWm6 _gmxfZ2BpOHxa6nWwqBB"
+                  viewBox="0 0 21 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_13183_10121)">
+                    <path
+                      d="M20.3081 10.2303C20.3081 9.55056 20.253 8.86711 20.1354 8.19836H10.7031V12.0492H16.1046C15.8804 13.2911 15.1602 14.3898 14.1057 15.0879V17.5866H17.3282C19.2205 15.8449 20.3081 13.2728 20.3081 10.2303Z"
+                      fill="#3F83F8"
+                    ></path>
+                    <path
+                      d="M10.7019 20.0006C13.3989 20.0006 15.6734 19.1151 17.3306 17.5865L14.1081 15.0879C13.2115 15.6979 12.0541 16.0433 10.7056 16.0433C8.09669 16.0433 5.88468 14.2832 5.091 11.9169H1.76562V14.4927C3.46322 17.8695 6.92087 20.0006 10.7019 20.0006V20.0006Z"
+                      fill="#34A853"
+                    ></path>
+                    <path
+                      d="M5.08857 11.9169C4.66969 10.6749 4.66969 9.33008 5.08857 8.08811V5.51233H1.76688C0.348541 8.33798 0.348541 11.667 1.76688 14.4927L5.08857 11.9169V11.9169Z"
+                      fill="#FBBC04"
+                    ></path>
+                    <path
+                      d="M10.7019 3.95805C12.1276 3.936 13.5055 4.47247 14.538 5.45722L17.393 2.60218C15.5852 0.904587 13.1858 -0.0287217 10.7019 0.000673888C6.92087 0.000673888 3.46322 2.13185 1.76562 5.51234L5.08732 8.08813C5.87733 5.71811 8.09302 3.95805 10.7019 3.95805V3.95805Z"
+                      fill="#EA4335"
+                    ></path>
+                  </g>
+                  <defs>
+                    <clippath id="clip0_13183_10121">
+                      <rect
+                        width="20"
+                        height="20"
+                        fill="white"
+                        transform="translate(0.5)"
+                      ></rect>
+                    </clippath>
+                  </defs>
+                </svg>
+                Sign up with Google
+              </button>
+              <a
+                href="#"
+                id="facebook-login"
+                style="background-color: #374151; color: white; border: none"
+                class="jCISvWkW5oStPH6Wrb_H ay0ziTPUL4Ag5d1DkSY7 neyUwteEn7DOg9pBSJJE _WclR59Ji8jwfmjPtOei _gKcj49wZgnwx1LpcJi6 bFARDnno0HUtfhktTXfR _gmxfZ2BpOHxa6nWwqBB rD4HtsUG_hahmbh2Kj09 MxG1ClE4KPrIvlL5_Q5x _A6LflweZRUwrcL6M2Tk g3OYBOqwXUEW4dRGogkH qHIOIw8TObHgD3VvKa5x yjGyQxv8jnYk9_MGMqLN _Qk4_E9_iLqcHsRZZ4ge PWreZZgitgAm_Nv4Noh9 pxHuWvF853ck68OLN6ef DpMPWwlSESiYA8EE1xKM _xQT_qSXfwWf6ZhwRle4 m_8FxTcpOfmK___hAaJ6 _FONMPVaCsLFJJGDaaIL _bKyZ1er5YE_NnrwOCm9 __8kBLtrR_iuU2wW25Lp _cpMMPjFQqjJu4i0Puod eCx_6PNzncAD5yo7Qcic _BIVSYBXQUqEf_ltPrSk DTyjKhtXBNaebZa5L0l9 _OovBxfPdK7Rjv2nh2Ot"
+              >
+                <img
+                  src="./images/fb.png"
+                  alt="Facebook Icon"
+                  class="w-5 h-5 mr-2"
+                />
+                Sign up with Facebook
+              </a>
+            </div>
+            <div class="__Iv72FadFpzwcpFl5_5">
+              <div class="kqgYncRJQ7spwKfig6It __9yfFbPJuEYWBMy4kA9">
+                <div
+                  class="kqgYncRJQ7spwKfig6It neyUwteEn7DOg9pBSJJE RRXFBumaW2SHdseZaWm6"
+                >
+                  <input
+                    id="terms"
+                    aria-describedby="terms"
+                    type="checkbox"
+                    class="kbeH5ty3CtPKxXm5TXph eVNhx7m5tjSVbfYQzDdT PWreZZgitgAm_Nv4Noh9 T_tFENbpK8DMDNjQRyQa YPSoR6AXtPgkmylUmcbT jCHKuJ3G7rklx_LiAfbf focus:ring-3 focus:ring-primary-300 _t2wg7hRcyKsNN8CSSeU _BIVSYBXQUqEf_ltPrSk dark:focus:ring-primary-600 apRlbPZRJ4JWA5RVdURT"
+                    required=""
+                  />
+                </div>
+                <div class="Ljy4iPgx864jXhJbnInL MxG1ClE4KPrIvlL5_Q5x">
+                  <label
+                    for="terms"
+                    class="XdjN1uxS_rsa3F90ox40 K1PPCJwslha8GUIvV_Cr _Rz9TooiK_4jTN_Ub8Gm"
+                    >By signing up, you are creating a ClassForge account, and
+                    you agree to ClassForge’s
+                    <a
+                      class="_A6LflweZRUwrcL6M2Tk text-primary-600 dark:text-primary-500 _5zvlMLkN1qETxEl3IhT"
+                      href="#"
+                      style="color: #d97706"
+                      >Terms of Use</a
+                    >
+                    and
+                    <a
+                      class="_A6LflweZRUwrcL6M2Tk text-primary-600 dark:text-primary-500 _5zvlMLkN1qETxEl3IhT"
+                      href="#"
+                      style="color: #d97706"
+                      >Privacy Policy</a
+                    >.</label
+                  >
+                </div>
+              </div>
+              <div class="kqgYncRJQ7spwKfig6It __9yfFbPJuEYWBMy4kA9">
+                <div
+                  class="kqgYncRJQ7spwKfig6It neyUwteEn7DOg9pBSJJE RRXFBumaW2SHdseZaWm6"
+                >
+                  <input
+                    id="newsletter"
+                    aria-describedby="newsletter"
+                    type="checkbox"
+                    class="kbeH5ty3CtPKxXm5TXph eVNhx7m5tjSVbfYQzDdT PWreZZgitgAm_Nv4Noh9 T_tFENbpK8DMDNjQRyQa YPSoR6AXtPgkmylUmcbT jCHKuJ3G7rklx_LiAfbf focus:ring-3 focus:ring-primary-300 _t2wg7hRcyKsNN8CSSeU _BIVSYBXQUqEf_ltPrSk dark:focus:ring-primary-600 apRlbPZRJ4JWA5RVdURT"
+                    required=""
+                  />
+                </div>
+                <div class="Ljy4iPgx864jXhJbnInL MxG1ClE4KPrIvlL5_Q5x">
+                  <label
+                    for="newsletter"
+                    class="XdjN1uxS_rsa3F90ox40 K1PPCJwslha8GUIvV_Cr _Rz9TooiK_4jTN_Ub8Gm"
+                    >Email me about product updates and resources.</label
+                  >
+                </div>
+              </div>
+            </div>
+            <button
+              type="submit"
+              id="signup"
+              style="background-color: #d97706"
+              class="jCISvWkW5oStPH6Wrb_H wP9HMsqy6b96l2HBRbgb bg-primary-600 hover:bg-primary-700 _FONMPVaCsLFJJGDaaIL qHIOIw8TObHgD3VvKa5x focus:ring-primary-300 _A6LflweZRUwrcL6M2Tk _Qk4_E9_iLqcHsRZZ4ge MxG1ClE4KPrIvlL5_Q5x bFARDnno0HUtfhktTXfR _gKcj49wZgnwx1LpcJi6 _F_1gdhzusC6tSOWHtx_ dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+            >
+              Create an account
+            </button>
+          </form>
+        </div>
+        <div
+          class="Gv_Kzhl5FMSJkGOJVPkG zJEHSVu7alSVJ7kUYcCf J5z_xpzAk7ofGkPjWqvM"
+        >
+          <img
+            class="j2x7_17hqRVmwte_tWFa RV8RoaI_SlEMC5CEQ3ms s39ClfdnICIuO9QZ5YG_"
+            src="./images/illustration.svg"
+            alt="illustration"
+          />
+        </div>
+      </div>
+    </section>
+    <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
+  </body>
+</html>

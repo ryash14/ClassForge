@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClassForge</title>
+    <link rel="icon" href="./images/favicon.png" type="image/png" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/output.css" />
+    <link
+      rel="stylesheet"
+      href="https://d2s3ptptdai04x.cloudfront.net/get-flowbite-pro.ee89144a-14cd-4e25-89cc-8cfe52e1e621.css?Expires=2026550429&amp;Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9kMnMzcHRwdGRhaTA0eC5jbG91ZGZyb250Lm5ldC9nZXQtZmxvd2JpdGUtcHJvLmVlODkxNDRhLTE0Y2QtNGUyNS04OWNjLThjZmU1MmUxZTYyMS5jc3MiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjIwMjY1NTA0Mjl9fX1dfQ__&amp;Signature=Me2vY7NLsCTq9k2aHjzPdVpm4WJgo~xH6LPA1lSCxN9hmH~mY~HmY6X6dtVb4ScNZtC~GJMEvkzMUjcflIakKiz398OqdvKG83nvY2CrRfLovV8lvfOv2iOR4ZNiRRvRheSDpEKUe4x6CslpXo1eb7K2dLWL1rwhk5loDqzpbC4dA1~YH0SPcTOuVAx5tdAjTqul0eJ0L9LmN-1UQQ4GtKpOq8cQb37TR3ZlhfaPqUBXv2PhyZsvL4vIMAG4qzu80gLT1-9ui3do5VEvjxJWEsTys~EeKgUp~ZC8fCT5MnHbb7HSc1vf6AAb5zWnY26ifflRPWXMnUVoXmK5AWMIrg__&amp;Key-Pair-Id=K2J5W1U51CTOXP"
+    />
+
+    <style>
+      /* Custom scrollbar for all elements */
+      ::-webkit-scrollbar {
+        width: 12px; /* Set the width of the scrollbar */
+        height: 12px; /* Set the height of the scrollbar (for horizontal scrolling) */
+      }
+
+      /* Track (background) */
+      ::-webkit-scrollbar-track {
+        background: #1a1a1a; /* Darker track to blend with gray-900 background */
+        border-radius: 10px; /* Rounded corners */
+      }
+
+      /* Handle (the draggable part) */
+      ::-webkit-scrollbar-thumb {
+        background: #fbbf24; /* Yellow color to match the button color */
+        border-radius: 10px; /* Rounded corners */
+        border: 3px solid #1a1a1a; /* Adds space around the thumb */
+        transition: background 0.3s ease; /* Smooth transition effect */
+      }
+
+      /* Handle when hovering */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #f59e0b; /* Darker yellow when hovering over the handle */
+      }
+
+      /* Optional: For horizontal scrollbars */
+      ::-webkit-scrollbar-horizontal {
+        height: 8px; /* Height of horizontal scrollbar */
+      }
+
+      /* Optional: For vertical scrollbars */
+      ::-webkit-scrollbar-vertical {
+        width: 8px; /* Width of vertical scrollbar */
+      }
+
+      /* Default: Show the hamburger button on small screens and hide the navbar menu */
+      #navbar-menu {
+        display: none; /* Hide the navbar menu on small screens */
+      }
+
+      /* Hide the hamburger menu on larger screens */
+      #hamburger {
+        display: block; /* Show the hamburger button on small screens */
+      }
+
+      /* On medium and larger screens, hide the hamburger and display the navbar menu inline */
+      @media (min-width: 768px) {
+        #hamburger {
+          display: none; /* Hide the hamburger button */
+        }
+
+        #navbar-menu {
+          display: flex; /* Show the navbar menu */
+        }
+      }
+
+      /* Optional: Customize dropdown menu for smaller screens */
+      #dropdown-menu {
+        display: none; /* Hide the dropdown menu on large screens */
+      }
+
+      @media (max-width: 767px) {
+        #dropdown-menu {
+          display: block; /* Show the dropdown on small screens */
+        }
+      }
+
+      .auth-buttons .btn {
+        /* display: inline-block; */
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        text-align: center;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .btn-login {
+        color: #fff;
+      }
+
+      .btn-login:hover {
+        background-color: #2563eb; /* Darker Blue */
+      }
+
+      .btn-signup {
+        background-color: #f59e0b; /* Yellow */
+        color: #fff;
+      }
+
+      .btn-signup:hover {
+        background-color: #d97706; /* Darker Yellow */
+      }
+
+      @media (max-width: 640px) {
+        /* Hide Sign Up on smaller screens */
+        .btn-signup {
+          display: none;
+        }
+      }
+
+      .feature-card {
+        background-color: #1a202c; /* Dark background */
+        border: 1px solid #374151; /* Dark border for contrast */
+        border-radius: 8px;
+      }
+
+      .feature-card:hover {
+        background-color: #374151; /* Slightly lighter background on hover */
+      }
+
+      .icon-container {
+        background-color: #4b5563;
+        padding: 12px;
+        border-radius: 50%;
+      }
+
+      .icon-container svg {
+        color: white;
+      }
+
+      .feature-title {
+        color: #d1d5db;
+      }
+
+      .feature-description {
+        color: #a1a1aa;
+      }
+
+      .action-button {
+        background-color: #3b82f6;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: all 0.3s;
+      }
+
+      .action-button:hover {
+        background-color: #2563eb;
+      }
+      @media screen and (max-width: 480px) {
+        #loginButton {
+          color: white; /* text-gray-700 */
+          background-color: #3b82f6; /* bg-yellow-500 */
+        }
+
+        #loginButton:hover {
+          background-color: #2563eb; /* bg-yellow-700 */
+        }
+        #logoImage {
+          height: 2.5rem;
+        }
+      }
+    </style>
+    <link rel="stylesheet" href="./styles/styles.css" />
+    <!-- Favicon -->
+
+    <!-- Add jQuery (or any other carousel library) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Add your carousel library if needed, e.g., Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <body class="bg-gray-900">
+    <nav class="navbar bg-gray-900 border-gray-200 dark:bg-gray-900">
+      <div
+        class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
+      >
+        <a
+          href="index.html"
+          class="flex items-center space-x-3 rtl:space-x-reverse"
+        >
+          <!-- Logo Image with resized size on smaller screens -->
+          <img
+            src="./images/logo.png"
+            class="h-8 sm:h-6 md:h-8 lg:h-8 xl:h-8 2xl:h-8 3xl:h-8 sm:h-6"
+            alt="Brand Logo"
+            id="logoImage"
+          />
+        </a>
+
+        <div
+          class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse"
+          id="authContainer"
+        >
+          <!-- Dynamic content will be injected here -->
+        </div>
+        <div
+          class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+          id="navbar-menu"
+        >
+          <ul
+            class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-700 rounded-lg bg-gray-900 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-gray-900 dark:bg-gray-900 md:dark:bg-gray-900 dark:border-gray-700"
+            style="border: none"
+            style="font-size: 17.73px"
+          >
+            <li>
+              <a
+                href="index.html"
+                class="block py-2 px-3 text-white bg-yellow-700 rounded md:bg-transparent md:text-yellow-700 md:p-0 md:dark:text-yellow-500"
+                aria-current="page"
+                >Home</a
+              >
+            </li>
+            <li>
+              <a
+                href="about.html"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-yellow-700 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >About Us</a
+              >
+            </li>
+            <li>
+              <a
+                href="services.html"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-yellow-700 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >Services</a
+              >
+            </li>
+            <li>
+              <a
+                href="pricing.html"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-yellow-700 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >Pricing</a
+              >
+            </li>
+            <li>
+              <a
+                href="contact.html"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-yellow-700 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section class="bg-gray-900">
+      <div
+        class="grid max-w-screen-xl px-4 py-16 mx-auto lg:gap-8 xl:gap-0 lg:grid-cols-12 items-center"
+      >
+        <div class="mr-auto place-self-center lg:col-span-7">
+          <h1
+            id="roleTitle"
+            class="max-w-2xl mb-4 text-5xl font-extrabold tracking-tight leading-tight text-white"
+            style="color: #ffffff; font-size: 3.5rem"
+          >
+            Streamline Question Paper Creation!
+          </h1>
+          <p
+            id="roleDescription"
+            class="max-w-2xl mb-6 font-light text-gray-300 lg:mb-8 md:text-lg lg:text-xl"
+          >
+            Empowering teachers to effortlessly craft question papers and
+            guiding students with precise and well-structured answers. Explore a
+            smarter way to teach and learn!
+          </p>
+          <a
+            href="signin.html"
+            id="roleLink"
+            class="inline-flex items-center justify-center px-6 py-3 text-lg font-medium text-gray-900 rounded-lg bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300"
+            style="color: #1a202c"
+          >
+            Get Started
+            <svg
+              class="w-5 h-5 ml-2 -mr-1"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </a>
+        </div>
+        <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
+          <img
+            id="roleImage"
+            src="/images/image8.jpg"
+            alt="Educational Mockup"
+            class="rounded-xl shadow-lg"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- component -->
+    <section class="bg-gray-900 text-white">
+      <div class="container px-6 py-10 mx-auto lg:px-16 xl:px-20">
+        <h1 class="text-3xl font-semibold capitalize lg:text-4xl">
+          Explore our <br />
+          <span class="underline decoration-yellow-500">ClassForge</span>
+          Features
+        </h1>
+
+        <p class="mt-4 text-gray-400 xl:mt-6">
+          ClassForge is an online platform designed to help educators create and
+          manage personalized learning environments, offering tools for content
+          creation, assessment, and student engagement.
+        </p>
+
+        <div
+          class="grid grid-cols-1 gap-8 mt-8 xl:mt-12 xl:gap-12 md:grid-cols-2 xl:grid-cols-3"
+        >
+          <div class="p-8 space-y-3 border-2 border-yellow-400 rounded-xl">
+            <span class="inline-block text-yellow-500">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-8 h-8"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"
+                />
+              </svg>
+            </span>
+
+            <h1 class="text-2xl font-semibold capitalize">
+              Question Answering System for Students
+            </h1>
+
+            <p class="text-gray-400">
+              An interactive system for students to answer questions, receive
+              instant feedback, and track their progress through a personalized
+              dashboard.
+            </p>
+
+            <a
+              href="#"
+              class="inline-flex p-2 text-yellow-500 capitalize transition-colors duration-200 transform bg-yellow-100 rounded-full hover:underline hover:text-yellow-600"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </a>
+          </div>
+
+          <div class="p-8 space-y-3 border-2 border-yellow-400 rounded-xl">
+            <span class="inline-block text-yellow-500">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-8 h-8"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"
+                />
+              </svg>
+            </span>
+
+            <h1 class="text-2xl font-semibold capitalize">
+              Syllabus-based Question Paper Generation
+            </h1>
+
+            <p class="text-gray-400">
+              A powerful tool for teachers to generate question papers based on
+              the syllabus, along with automated answer keys.
+            </p>
+
+            <a
+              href="#"
+              class="inline-flex p-2 text-yellow-500 capitalize transition-colors duration-200 transform bg-yellow-100 rounded-full hover:underline hover:text-yellow-600"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </a>
+          </div>
+
+          <div class="p-8 space-y-3 border-2 border-yellow-400 rounded-xl">
+            <span class="inline-block text-yellow-500">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-8 h-8"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                />
+              </svg>
+            </span>
+
+            <h1 class="text-2xl font-semibold capitalize">
+              Personalized Dashboard
+            </h1>
+
+            <p class="text-gray-400">
+              A customizable dashboard for both students and teachers to easily
+              track progress, assignments, and more.
+            </p>
+
+            <a
+              href="#"
+              class="inline-flex p-2 text-yellow-500 capitalize transition-colors duration-200 transform bg-yellow-100 rounded-full hover:underline hover:text-yellow-600"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="fixed bottom-6 right-6 z-50">
+      <a
+        href="https://reddygariyashwanthreddyy.web.app"
+        target="_blank"
+        class="flex items-center justify-center px-6 py-3 bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 text-white font-semibold rounded-full shadow-2xl transform hover:scale-105 hover:rotate-2 transition-all duration-300 ease-in-out ring-4 ring-yellow-300 hover:ring-yellow-400"
+      >
+        Hire Me
+      </a>
+    </div>
+
+    <section class="py-16 bg-dark-900 text-white">
+      <div class="container mx-auto px-6 sm:px-8 lg:px-12">
+        <!-- FAQ Header -->
+        <h2 class="text-3xl font-semibold text-center text-yellow-400 mb-8">
+          Frequently Asked Questions
+        </h2>
+
+        <!-- FAQ Accordion Section -->
+        <div class="space-y-6 max-w-3xl mx-auto">
+          <!-- FAQ Item 1: Pricing -->
+          <details class="bg-dark-900 p-6 rounded-lg">
+            <summary
+              class="text-xl font-medium cursor-pointer text-gray-100 focus:outline-none"
+            >
+              What is the pricing?
+            </summary>
+            <div class="mt-4 text-gray-400">
+              <p>We offer affordable pricing plans:</p>
+              <ul class="mt-2 space-y-1 text-gray-300">
+                <li>
+                  <span class="font-semibold text-yellow-400">Students:</span>
+                  ₹799/year
+                </li>
+                <li>
+                  <span class="font-semibold text-yellow-400">Teachers:</span>
+                  ₹1499/year
+                </li>
+              </ul>
+              <p class="mt-4">
+                Contact us for more details or custom plans for schools and
+                institutions.
+              </p>
+            </div>
+          </details>
+
+          <!-- FAQ Item 2: Contact Support -->
+          <details class="bg-dark-900 p-6 rounded-lg">
+            <summary
+              class="text-xl font-medium cursor-pointer text-gray-100 focus:outline-none"
+            >
+              How can I contact support?
+            </summary>
+            <div class="mt-4 text-gray-400">
+              <p>
+                For any inquiries or assistance, you can contact our support
+                team via email:
+              </p>
+              <p class="text-yellow-400">
+                <strong>support@ClassForge.com</strong>
+              </p>
+              <p class="mt-2">
+                Our support team is available Monday to Friday, 9 AM to 6 PM
+                (GMT).
+              </p>
+            </div>
+          </details>
+
+          <!-- FAQ Item 3: Data Security -->
+          <details class="bg-dark-900 p-6 rounded-lg">
+            <summary
+              class="text-xl font-medium cursor-pointer text-gray-100 focus:outline-none"
+            >
+              Is my data secure on this platform?
+            </summary>
+            <div class="mt-4 text-gray-400">
+              <p>
+                Yes, we take data security very seriously. We use the latest
+                encryption techniques to ensure the protection of your personal
+                and educational data.
+              </p>
+              <p class="mt-2">
+                Our platform is fully compliant with the latest data protection
+                regulations such as GDPR and CCPA.
+              </p>
+            </div>
+          </details>
+
+          <!-- FAQ Item 4: Features of the Website -->
+          <details class="bg-dark-900 p-6 rounded-lg">
+            <summary
+              class="text-xl font-medium cursor-pointer text-gray-100 focus:outline-none"
+            >
+              What features does this website offer?
+            </summary>
+            <div class="mt-4 text-gray-400">
+              <ul class="list-disc list-inside space-y-2">
+                <li>
+                  <strong>Interactive Learning Tools:</strong> Engaging
+                  exercises and lessons to improve learning outcomes.
+                </li>
+                <li>
+                  <strong>Student Progress Tracking:</strong> Keep track of your
+                  academic progress and achievements.
+                </li>
+                <li>
+                  <strong>Collaboration Features:</strong> Collaborate with
+                  classmates or colleagues in real-time on assignments and
+                  projects.
+                </li>
+                <li>
+                  <strong>Personalized Learning:</strong> Get tailored
+                  recommendations based on your learning preferences and goals.
+                </li>
+              </ul>
+              <p class="mt-4">
+                Explore these features and more when you sign up for our
+                platform.
+              </p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <footer class="flex flex-col space-y-10 justify-center m-10">
+      <nav
+        class="flex justify-center flex-wrap gap-6 text-white-500 font-medium"
+        style="color: white"
+      >
+        <a class="hover:text-yellow-700" href="index.html">Home</a>
+        <a class="hover:text-yellow-700" href="about.html">About</a>
+        <a class="hover:text-yellow-700" href="services.html">Services</a>
+        <a class="hover:text-yellow-700" href="pricing.html">Pricing</a>
+        <a class="hover:text-yellow-700" href="contact.html">Contact</a>
+      </nav>
+
+      <div class="flex justify-center space-x-5">
+        <a
+          href="https://facebook.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src="https://img.icons8.com/fluent/30/000000/facebook-new.png" />
+        </a>
+        <a
+          href="https://linkedin.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src="https://img.icons8.com/fluent/30/000000/linkedin-2.png" />
+        </a>
+        <a
+          href="https://instagram.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="https://img.icons8.com/fluent/30/000000/instagram-new.png"
+          />
+        </a>
+        <a
+          href="https://messenger.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="https://img.icons8.com/fluent/30/000000/facebook-messenger--v2.png"
+          />
+        </a>
+        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.icons8.com/fluent/30/000000/twitter.png" />
+        </a>
+      </div>
+      <p class="text-center text-gray-700 font-medium" style="color: white">
+        &copy; 2024 <span style="color: #d97706">ClassForge </span>All rights
+        reservered.
+      </p>
+    </footer>
+    <script src="https://d2s3ptptdai04x.cloudfront.net/get-flowbite-pro.0bb1f3e7-b3c6-4a92-9083-fa92b1e6aefa.js?Expires=2026550437&amp;Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9kMnMzcHRwdGRhaTA0eC5jbG91ZGZyb250Lm5ldC9nZXQtZmxvd2JpdGUtcHJvLjBiYjFmM2U3LWIzYzYtNGE5Mi05MDgzLWZhOTJiMWU2YWVmYS5qcyIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MjAyNjU1MDQzN319fV19&amp;Signature=TThznlzndefHnqJQti98l-woSbR0wWPt-EfkNx-IZ6dOulTvAozC3vvXYE5q2eAnTGSHJ-X51ZLN4EG72gPsk6P0fri8oOQy0mo9vgA4tARgsIV6rSRuTbFTdRvkytH02krC1glxnj9H63iXIuQaDpvm3MH-Hx0DkvHJ0K0syQrf4BFtiaS4huLA27mRblqBUwi5O7EZx~DcY55vY4zb4dbrqtWpKUl13UbqgGzBp0yO2sxHLVkhT6JYCUZmFxqtgPGg2psDzSKjdMyHajPlf~5c4Qt32FpbvGl1mLrByXT8HAbkRFIC2Ia6cqe06~-qCyUSGeNPpc2J5uydi5Ps2g__&amp;Key-Pair-Id=K2J5W1U51CTOXP"></script>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-app.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+        signOut,
+      } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-auth.js";
+
+      // Firebase Configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBjHs-yazGlHa9CWWtcv0-GS5zGcv_JRMc",
+        authDomain: "logindemo-20277.firebaseapp.com",
+        projectId: "logindemo-20277",
+        storageBucket: "logindemo-20277.appspot.com",
+        messagingSenderId: "290534553076",
+        appId: "1:290534553076:web:f35bc6a3f5041319e8f5a1",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth();
+
+      const authContainer = document.getElementById("authContainer");
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          const userRole = user.role || "User";
+          // If logged in
+          const profileHTML = `
+  <div class="relative">
+    <img
+      src="${
+        user.photoURL ||
+        "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
+      }"
+      alt="Profile Photo"
+      class="w-10 h-10 rounded-full cursor-pointer"
+      id="profilePhoto"
+    />
+    <div
+      id="profileDropdown"
+      class="absolute right-0 mt-2 bg-gray-800 text-white shadow-lg rounded w-60 hidden z-10"
+    >
+      <div class="px-4 py-2 text-sm">
+        <strong class="text-white">${userRole}</strong>
+        <p class="text-gray-400 text-xs">${user.email}</p>
+      </div>
+      <hr class="my-1 border-gray-600" />
+      <a
+        href="dashboard.html"
+        class="block px-4 py-2 text-gray-300 hover:bg-gray-700"
+      >
+        Dashboard
+      </a>
+      <a
+        href="settings.html"
+        class="block px-4 py-2 text-gray-300 hover:bg-gray-700"
+      >
+        Settings
+      </a>
+      <button
+        id="signOutButton"
+        class="block w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-700"
+      >
+        Sign Out
+      </button>
+    </div>
+  </div>
+`;
+          authContainer.innerHTML = profileHTML;
+
+          const profilePhoto = document.getElementById("profilePhoto");
+          const profileDropdown = document.getElementById("profileDropdown");
+
+          // Toggle dropdown visibility on click
+          profilePhoto.addEventListener("click", () => {
+            profileDropdown.classList.toggle("hidden");
+          });
+
+          // Close dropdown if clicked outside
+          document.addEventListener("click", (e) => {
+            if (
+              !profileDropdown.contains(e.target) &&
+              !profilePhoto.contains(e.target)
+            ) {
+              profileDropdown.classList.add("hidden");
+            }
+          });
+
+          // Add Sign Out functionality
+          const signOutButton = document.getElementById("signOutButton");
+          signOutButton.addEventListener("click", async () => {
+            await signOut(auth);
+            window.location.reload();
+          });
+        } else {
+          // If not logged in
+          authContainer.innerHTML = `
+<div class="auth-buttons">
+  <a href="signin.html" id="loginButton" class="btn btn-login">Log In</a>
+  <a href="signup.html" class="btn btn-signup">Sign Up</a>
+</div>
+
+
+                `;
+        }
+      });
+    </script>
+
+    <script type="module" src="checkingRole.js"></script>
+    <script type="module" src="checking.js"></script>
+  </body>
+</html>

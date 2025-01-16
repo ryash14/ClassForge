@@ -1,0 +1,45 @@
+[debug] [2025-01-16T09:49:55.565Z] ----------------------------------------------------------------------
+[debug] [2025-01-16T09:49:55.567Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ryash\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-01-16T09:49:55.567Z] CLI Version:   13.29.1
+[debug] [2025-01-16T09:49:55.567Z] Platform:      win32
+[debug] [2025-01-16T09:49:55.567Z] Node Version:  v22.12.0
+[debug] [2025-01-16T09:49:55.567Z] Time:          Thu Jan 16 2025 15:19:55 GMT+0530 (India Standard Time)
+[debug] [2025-01-16T09:49:55.568Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-01-16T09:49:55.615Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-01-16T09:49:55.616Z] > authorizing via signed-in user (ryashwanthreddygari@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\ryash\Desktop
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-01-16T09:50:04.545Z] Using project from CLI flag: yashwanthreddy-6c49d
+[debug] [2025-01-16T09:50:04.550Z] Checked if tokens are valid: true, expires at: 1737024539093
+[debug] [2025-01-16T09:50:04.551Z] Checked if tokens are valid: true, expires at: 1737024539093
+[debug] [2025-01-16T09:50:04.553Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/yashwanthreddy-6c49d [none]
+[debug] [2025-01-16T09:50:05.199Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/yashwanthreddy-6c49d 403
+[debug] [2025-01-16T09:50:05.199Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/yashwanthreddy-6c49d {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2025-01-16T09:50:05.200Z] Request to https://firebase.googleapis.com/v1beta1/projects/yashwanthreddy-6c49d had HTTP Error: 403, The caller does not have permission
+[debug] [2025-01-16T09:50:05.395Z] FirebaseError: Request to https://firebase.googleapis.com/v1beta1/projects/yashwanthreddy-6c49d had HTTP Error: 403, The caller does not have permission
+    at responseToError (C:\Users\ryash\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:52:12)
+    at RetryOperation._fn (C:\Users\ryash\AppData\Roaming\npm\node_modules\firebase-tools\lib\apiv2.js:312:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[error] 
+[error] Error: Failed to get Firebase project yashwanthreddy-6c49d. Please make sure the project exists and your account has permission to access it.

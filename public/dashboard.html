@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="/src/output.css" />
+    <style>
+      /* Custom scrollbar for all elements */
+      ::-webkit-scrollbar {
+        width: 12px; /* Set the width of the scrollbar */
+        height: 12px; /* Set the height of the scrollbar (for horizontal scrolling) */
+      }
+
+      /* Track (background) */
+      ::-webkit-scrollbar-track {
+        background: #1a1a1a; /* Darker track to blend with gray-900 background */
+        border-radius: 10px; /* Rounded corners */
+      }
+
+      /* Handle (the draggable part) */
+      ::-webkit-scrollbar-thumb {
+        background: #fbbf24; /* Yellow color to match the button color */
+        border-radius: 10px; /* Rounded corners */
+        border: 3px solid #1a1a1a; /* Adds space around the thumb */
+        transition: background 0.3s ease; /* Smooth transition effect */
+      }
+
+      /* Handle when hovering */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #f59e0b; /* Darker yellow when hovering over the handle */
+      }
+
+      /* Optional: For horizontal scrollbars */
+      ::-webkit-scrollbar-horizontal {
+        height: 8px; /* Height of horizontal scrollbar */
+      }
+
+      /* Optional: For vertical scrollbars */
+      ::-webkit-scrollbar-vertical {
+        width: 8px; /* Width of vertical scrollbar */
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-900 text-white font-sans">
+    <nav class="navbar bg-gray-900 border-gray-200 dark:bg-gray-900">
+      <div
+        class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
+      >
+        <a
+          href="index.html"
+          class="flex items-center space-x-3 rtl:space-x-reverse"
+        >
+          <!-- Logo Image with resized size on smaller screens -->
+          <img
+            src="./images/logo.png"
+            class="h-8 sm:h-6 md:h-8 lg:h-8 xl:h-8 2xl:h-8 3xl:h-8 sm:h-6"
+            alt="Brand Logo"
+            id="logoImage"
+          />
+        </a>
+
+        <div
+          class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse"
+          id="authContainer"
+        >
+          <!-- Dynamic content will be injected here -->
+        </div>
+        <div
+          class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+          id="navbar-menu"
+        >
+          <ul
+            class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-700 rounded-lg bg-gray-900 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-gray-900 dark:bg-gray-900 md:dark:bg-gray-900 dark:border-gray-700"
+            style="font-size: 17.73px"
+          >
+            <li>
+              <a
+                href="index.html"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-yellow-700 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >Home</a
+              >
+            </li>
+            <li>
+              <a
+                href="about.html"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-yellow-700 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >About Us</a
+              >
+            </li>
+            <li>
+              <a
+                href="services.html"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-yellow-700 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >Services</a
+              >
+            </li>
+            <li>
+              <a
+                href="pricing.html"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-yellow-700 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >Pricing</a
+              >
+            </li>
+            <li>
+              <a
+                href="contact.html"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-yellow-700 md:p-0 dark:text-white md:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="max-w-7xl mx-auto px-6 py-8 bg-dark-900 rounded-lg shadow-xl">
+      <div
+        class="mt-8"
+        id="responsesSection"
+        class="bg-gray-900 p-6 rounded-lg"
+      >
+        <h2
+          class="text-3xl font-semibold text-white mb-6 border-b-4 border-yellow-500 pb-2"
+        >
+          Your Responses
+        </h2>
+        <div id="responses" class="space-y-12">
+          <!-- Categorized Response Sections -->
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-app.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+        signOut,
+      } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-auth.js";
+      import {
+        getFirestore,
+        collection,
+        query,
+        where,
+        getDocs,
+        orderBy,
+      } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-firestore.js";
+
+      // Firebase Configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBjHs-yazGlHa9CWWtcv0-GS5zGcv_JRMc",
+        authDomain: "logindemo-20277.firebaseapp.com",
+        projectId: "logindemo-20277",
+        storageBucket: "logindemo-20277.appspot.com",
+        messagingSenderId: "290534553076",
+        appId: "1:290534553076:web:f35bc6a3f5041319e8f5a1",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+
+      const authContainer = document.getElementById("authContainer");
+      const responsesSection = document.getElementById("responses");
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          const userId = user.uid;
+          fetchResponses(userId);
+          const userRole = user.role || "User";
+          // If logged in
+          const profileHTML = `
+      <div class="relative">
+        <img
+          src="${
+            user.photoURL ||
+            "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
+          }"
+          alt="Profile Photo"
+          class="w-10 h-10 rounded-full cursor-pointer"
+          id="profilePhoto"
+        />
+        <div
+          id="profileDropdown"
+          class="absolute right-0 mt-2 bg-gray-800 text-white shadow-lg rounded w-60 hidden z-10"
+        >
+          <div class="px-4 py-2 text-sm">
+            <strong class="text-white">${userRole}</strong>
+            <p class="text-gray-400 text-xs">${user.email}</p>
+          </div>
+          <hr class="my-1 border-gray-600" />
+          <a
+            href="dashboard.html"
+            class="block px-4 py-2 text-gray-300 hover:bg-gray-700"
+          >
+            Dashboard
+          </a>
+          <a
+            href="settings.html"
+            class="block px-4 py-2 text-gray-300 hover:bg-gray-700"
+          >
+            Settings
+          </a>
+          <button
+            id="signOutButton"
+            class="block w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-700"
+          >
+            Sign Out
+          </button>
+        </div>
+      </div>
+    `;
+
+          authContainer.innerHTML = profileHTML;
+
+          const profilePhoto = document.getElementById("profilePhoto");
+          const profileDropdown = document.getElementById("profileDropdown");
+
+          // Toggle dropdown visibility on click
+          profilePhoto.addEventListener("click", () => {
+            profileDropdown.classList.toggle("hidden");
+          });
+
+          // Close dropdown if clicked outside
+          document.addEventListener("click", (e) => {
+            if (
+              !profileDropdown.contains(e.target) &&
+              !profilePhoto.contains(e.target)
+            ) {
+              profileDropdown.classList.add("hidden");
+            }
+          });
+
+          // Add Sign Out functionality
+          const signOutButton = document.getElementById("signOutButton");
+          signOutButton.addEventListener("click", async () => {
+            await signOut(auth);
+            window.location.reload();
+          });
+        } else {
+          // If not logged in
+          authContainer.innerHTML = `
+                <a
+                  href="signin.html"
+                  id="loginButton"
+                  class="text-white hover:bg-gray-100 hover:text-gray-700 rounded px-4 py-2 transition-colors duration-200"
+
+                  >Log In</a
+                >
+                <a
+                  href="signup.html"
+                  class="text-gray-700 bg-yellow-500 hover:bg-yellow-700 text-white rounded px-4 py-2 transition-colors duration-200 hidden sm:block"
+                  >Sign Up</a
+                >
+              `;
+        }
+      });
+
+      function formatOutput(text) {
+        text = text.replace(/</g, "&lt;");
+        text = text.replace(/>/g, "&gt;");
+
+        // Format bold text
+        text = text.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
+
+        // Format inline LaTeX
+        text = text.replace(/\$\$(.*?)\$\$/g, "\\($1\\)"); // Inline LaTeX
+
+        // Format block LaTeX
+        text = text.replace(/\$\$(.*?)\$\$/g, "\\[$1\\]"); // Block LaTeX
+
+        // Handle boxed LaTeX
+        text = text.replace(/\$\\boxed\{(.*?)\}\$/g, "($1)");
+
+        // Format code blocks between triple backticks
+        text = text.replace(/```([\s\S]*?)```/g, "<pre><code>$1</code></pre>");
+
+        // Replace newlines with <br> for line breaks
+        text = text.replace(/\n/g, "<br/>");
+
+        // Convert tabs to spaces for indentation
+        text = text.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
+
+        // Handle escaped newlines and tabs
+        text = text.replace(/\\n/g, "<br/>");
+        text = text.replace(/\\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
+
+        return text;
+      }
+
+      function categorizeDate(timestamp) {
+        const now = new Date();
+        const responseDate = new Date(timestamp.seconds * 1000);
+        const daysDiff = Math.floor(
+          (now - responseDate) / (1000 * 60 * 60 * 24)
+        );
+
+        if (daysDiff === 0) return "Today";
+        if (daysDiff === 1) return "Yesterday";
+        return `${daysDiff} Days Ago`;
+      }
+
+      async function fetchResponses(userId) {
+        const responsesQuery = query(
+          collection(db, "responses"),
+          where("userId", "==", userId),
+          orderBy("timestamp", "desc")
+        );
+        const querySnapshot = await getDocs(responsesQuery);
+
+        console.log(querySnapshot.size); // Log number of documents returned
+
+        const categorizedResponses = {};
+
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const category = categorizeDate(data.timestamp);
+
+          console.log(category); // Check if the category is being set correctly
+
+          if (!categorizedResponses[category]) {
+            categorizedResponses[category] = [];
+          }
+          categorizedResponses[category].push({
+            result: formatOutput(data.result),
+            timestamp: new Date(data.timestamp.seconds * 1000),
+          });
+        });
+
+        // Check if categorizedResponses has data
+        console.log(categorizedResponses); // Check the categorized responses object
+
+        const responsesSection = document.getElementById("responsesSection");
+        if (!responsesSection) {
+          console.error("Responses section element not found.");
+          return;
+        }
+
+        responsesSection.innerHTML = "";
+
+        Object.keys(categorizedResponses).forEach((category) => {
+          const categoryContainer = document.createElement("div");
+          categoryContainer.classList.add("mb-8");
+          categoryContainer.innerHTML = `<h3 class="text-lg font-semibold text-gray-300 mb-4">${category}</h3>`;
+
+          categorizedResponses[category].forEach((response) => {
+            const responseCard = document.createElement("div");
+            responseCard.classList.add(
+              "bg-gray-800",
+              "p-6",
+              "rounded-lg",
+              "shadow-lg",
+              "space-y-4",
+              "mb-6",
+              "relative"
+            );
+            responseCard.innerHTML = `
+        <button
+          class="copy-btn bg-gray-900 hover:bg-gray-800 text-white py-1 px-3 rounded-lg absolute top-4 right-4"
+          data-response="${response.result}"
+        >
+          Copy
+        </button>
+        <div class="text-lg text-gray-100">${response.result}</div>
+        <div class="text-sm text-gray-400 mt-4">
+          ${response.timestamp.toLocaleString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </div>
+      `;
+            categoryContainer.appendChild(responseCard);
+          });
+
+          responsesSection.appendChild(categoryContainer);
+        });
+
+        attachCopyListeners();
+      }
+
+      function attachCopyListeners() {
+        const copyButtons = document.querySelectorAll(".copy-btn");
+        copyButtons.forEach((button) => {
+          button.addEventListener("click", (e) => {
+            const response = e.target.dataset.response;
+
+            // Convert the HTML-formatted response back to raw text with newlines and spaces
+            let plainText = response
+              .replace(/<br\/>/g, "\n") // Replace <br> with newline
+              .replace(/&nbsp;&nbsp;&nbsp;&nbsp;/g, "    "); // Replace &nbsp;&nbsp;&nbsp;&nbsp; with actual spaces
+
+            // Preserve bold text by replacing <b> and </b> tags with "**" for markdown-like style
+            plainText = plainText.replace(/<b>(.*?)<\/b>/g, "**$1**");
+
+            // Copy the plain text with actual line breaks and spaces
+            navigator.clipboard.writeText(plainText).then(() => {
+              const originalText = e.target.textContent;
+              e.target.textContent = "Copied";
+              setTimeout(() => {
+                e.target.textContent = originalText;
+              }, 3000);
+            });
+          });
+        });
+      }
+    </script>
+    <script type="module" src="checking.js"></script>
+  </body>
+</html>

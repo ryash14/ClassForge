@@ -1,0 +1,13 @@
+@media screen and (max-width: 480px) {
+  #loginButton {
+    color: black; /* text-gray-700 */
+    background-color: #facc15; /* bg-blue-500 */
+  }
+
+  #loginButton:hover {
+    background-color: #facc15; /* bg-blue-700 */
+  }
+  #logoImage {
+    height: 2.5rem;
+  }
+}
