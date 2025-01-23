@@ -18,6 +18,12 @@
     />
     <link rel="stylesheet" href="/src/output.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      .swal2-popup {
+        background-color: #111827; /* Dark 900 from Tailwind (hex: #111827) */
+        color: white;
+      }
+      </style>
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
       import {
@@ -114,7 +120,7 @@
           .then((result) => {
             Swal.fire({
               icon: "success",
-              title: "Google Login Successful",
+              title: "Login Successful",
               text: `Welcome, ${result.user.displayName}`,
               confirmButtonText: "Ok", // Customize button text
               customClass: {
@@ -127,7 +133,7 @@
           .catch((error) => {
             Swal.fire({
               icon: "error",
-              title: "Google Login Failed",
+              title: "Login Failed",
               text: error.message,
               confirmButtonText: "Ok", // Customize button text
               customClass: {
@@ -146,7 +152,7 @@
             .then((result) => {
               Swal.fire({
                 icon: "success",
-                title: "Facebook Login Successful",
+                title: "Login Successful",
                 text: `Welcome, ${result.user.displayName}`,
                 confirmButtonText: "Ok", // Customize button text
                 customClass: {
@@ -159,7 +165,7 @@
             .catch((error) => {
               Swal.fire({
                 icon: "error",
-                title: "Facebook Login Failed",
+                title: "Login Failed",
                 text: error.message,
                 confirmButtonText: "Ok", // Customize button text
                 customClass: {

@@ -59,29 +59,12 @@ function displayRoleContent(role) {
   const roleDescription = document.getElementById("roleDescription");
   const roleImage = document.getElementById("roleImage");
   const roleLink = document.getElementById("roleLink");
-
   // Update content based on the role
   if (role === "student") {
-    roleTitle.textContent = "Get Instant Answers with AI Assistance";
-    roleDescription.textContent =
-      "As a student, quickly get AI-generated answers for your questions. Start learning smarter today!";
-    roleImage.src =
-      "https://s39613.pcdn.co/wp-content/uploads/2024/05/students-learning-online-in-computer-app-with-ai-helper-bot-education-assistant-e-learning.jpg_s1024x1024wisk20c9ZjFzirmnCqf0_OYhZR6a0vd1flukm2-Jv5-MNaODbY.jpg"; // Replace with student-specific image
-    roleLink.textContent = "Click to Get Answers"; // Updated button text
-    roleLink.href = "student/answers.html"; // Link for student
+    console.log("Role is student");
   } else if (role === "teacher") {
-    roleTitle.textContent = "Generate Question Papers Instantly";
-    roleDescription.textContent =
-      "As a teacher, upload your syllabus and generate custom question papers in seconds. Save time and focus on teaching!";
-    roleImage.src = "/images/image7.jpg"; // Replace with teacher-specific image
-    roleLink.textContent = "Click to Generate Papers"; // Updated button text
-    roleLink.href = "teacher/questions.html"; // Link for teacher
+   console.log("Role is teacher");
   } else {
-    roleTitle.textContent = "Welcome to ClassForge - Your Learning Hub!";
-    roleDescription.textContent =
-      "Unlock the full potential of your learning and teaching experience with ClassForge! Sign in now to access personalized tools for students and teachers.";
-    roleImage.src = "/images/image6.jpg"; // Fallback default image for unassigned or unknown roles
-    roleLink.textContent = "Sign In and Get Started"; // Updated link text
-    roleLink.href = "signin.html"; // Link to sign-in page
+    console.log("Sign in to get the role ");
   }
 }
