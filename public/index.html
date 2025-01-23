@@ -225,8 +225,144 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Add your carousel library if needed, e.g., Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <style>
+      /* Loading Animation */
+      .lds-roller,
+      .lds-roller div,
+      .lds-roller div:after {
+        box-sizing: border-box;
+      }
+  
+      .lds-roller {
+        display: inline-block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 80px;
+        height: 80px;
+        transform: translate(-50%, -50%);
+      }
+  
+      .lds-roller div {
+        animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        transform-origin: 40px 40px;
+      }
+  
+      .lds-roller div:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        width: 7.2px;
+        height: 7.2px;
+        border-radius: 50%;
+        background: currentColor;
+        margin: -3.6px 0 0 -3.6px;
+      }
+  
+      .lds-roller div:nth-child(1) {
+        animation-delay: -0.036s;
+      }
+  
+      .lds-roller div:nth-child(1):after {
+        top: 62.62742px;
+        left: 62.62742px;
+      }
+  
+      .lds-roller div:nth-child(2) {
+        animation-delay: -0.072s;
+      }
+  
+      .lds-roller div:nth-child(2):after {
+        top: 67.71281px;
+        left: 56px;
+      }
+  
+      .lds-roller div:nth-child(3) {
+        animation-delay: -0.108s;
+      }
+  
+      .lds-roller div:nth-child(3):after {
+        top: 70.90963px;
+        left: 48.28221px;
+      }
+  
+      .lds-roller div:nth-child(4) {
+        animation-delay: -0.144s;
+      }
+  
+      .lds-roller div:nth-child(4):after {
+        top: 72px;
+        left: 40px;
+      }
+  
+      .lds-roller div:nth-child(5) {
+        animation-delay: -0.18s;
+      }
+  
+      .lds-roller div:nth-child(5):after {
+        top: 70.90963px;
+        left: 31.71779px;
+      }
+  
+      .lds-roller div:nth-child(6) {
+        animation-delay: -0.216s;
+      }
+  
+      .lds-roller div:nth-child(6):after {
+        top: 67.71281px;
+        left: 24px;
+      }
+  
+      .lds-roller div:nth-child(7) {
+        animation-delay: -0.252s;
+      }
+  
+      .lds-roller div:nth-child(7):after {
+        top: 62.62742px;
+        left: 17.37258px;
+      }
+  
+      .lds-roller div:nth-child(8) {
+        animation-delay: -0.288s;
+      }
+  
+      .lds-roller div:nth-child(8):after {
+        top: 56px;
+        left: 12.28719px;
+      }
+  
+      @keyframes lds-roller {
+        0% {
+          transform: rotate(0deg);
+        }
+  
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+  
+      /* Hide the loader once the page is fully loaded */
+      .loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 9999;
+      }
+  
+      .loading.hide {
+        display: none;
+      }
+    </style>
   </head>
   <body class="bg-gray-900">
+    <div class="loading">
+      <div class="lds-roller">
+        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+      </div>
+    </div>
     <nav class="navbar bg-gray-900 border-gray-200 dark:bg-gray-900">
       <div
         class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
@@ -698,6 +834,13 @@
         reservered.
       </p>
     </footer>
+    <script>
+      // Hide the loading animation after the page has loaded
+      window.addEventListener("load", function() {
+        const loader = document.querySelector('.loading');
+        loader.classList.add('hide');
+      });
+    </script>
     <script src="https://d2s3ptptdai04x.cloudfront.net/get-flowbite-pro.0bb1f3e7-b3c6-4a92-9083-fa92b1e6aefa.js?Expires=2026550437&amp;Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9kMnMzcHRwdGRhaTA0eC5jbG91ZGZyb250Lm5ldC9nZXQtZmxvd2JpdGUtcHJvLjBiYjFmM2U3LWIzYzYtNGE5Mi05MDgzLWZhOTJiMWU2YWVmYS5qcyIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MjAyNjU1MDQzN319fV19&amp;Signature=TThznlzndefHnqJQti98l-woSbR0wWPt-EfkNx-IZ6dOulTvAozC3vvXYE5q2eAnTGSHJ-X51ZLN4EG72gPsk6P0fri8oOQy0mo9vgA4tARgsIV6rSRuTbFTdRvkytH02krC1glxnj9H63iXIuQaDpvm3MH-Hx0DkvHJ0K0syQrf4BFtiaS4huLA27mRblqBUwi5O7EZx~DcY55vY4zb4dbrqtWpKUl13UbqgGzBp0yO2sxHLVkhT6JYCUZmFxqtgPGg2psDzSKjdMyHajPlf~5c4Qt32FpbvGl1mLrByXT8HAbkRFIC2Ia6cqe06~-qCyUSGeNPpc2J5uydi5Ps2g__&amp;Key-Pair-Id=K2J5W1U51CTOXP"></script>
 
     <script type="module">
