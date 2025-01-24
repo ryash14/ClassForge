@@ -16,7 +16,7 @@ const __dirname = path.dirname(__filename);
 // Serve static files from "public" directory
 app.use(express.static("public"));
 
-app.use(cors());
+app.use(cors({ origin: "*" })); 
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

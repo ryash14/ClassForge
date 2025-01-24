@@ -11,8 +11,7 @@ const port = 3000;
 
 app.use(express.static("public"));
 
-app.use(cors());
-
+app.use(cors({ origin: "*" })); 
 // Set up the storage for uploaded images
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
