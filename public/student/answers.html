@@ -355,11 +355,11 @@
         // Show the loading spinner and clear any previous results
         document.getElementById("loading").classList.remove("hidden");
         document.getElementById("result").innerHTML = "";
-
+        const API_BASE_URL ='https://classforge.onrender.com ';
         try {
           // Send the POST request using Axios
           const response = await axios.post(
-            "https://classforge.onrender.com/generate",
+            "`${API_BASE_URL}/generate`",
             formData,
             {
               headers: {
