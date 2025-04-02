@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
 const upload = multer({ dest: "uploads/" });
 
 // Replace this with your actual API Key
-const API_KEY = process.env.API_KEY; // Load API key from .env
+const API_KEY= "AIzaSyBQEw8dxL_11FI-YgCVgUpJ-FqeLbbMd3c";
 const genAI = new GoogleGenerativeAI(API_KEY);
 
 // Function to convert files to generative parts
