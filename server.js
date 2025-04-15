@@ -59,15 +59,16 @@ app.post("/generateQuestions", upload.array("images"), async (req, res) => {
         .status(400)
         .json({ error: "Provide at least a prompt or an image" });
     }
+    prompt = `Please generate a question paper based strictly on the syllabus provided in the text or uploaded image.
 
-    prompt = `Please generate a question paper based on the syllabus given in the text or in the uploaded image.
-    After generating the question paper, provide answers for each question:
-    - 2 marks: 4 points
-    - 5 marks: 8 points
-    - 10 marks: 15 points
-    Each point should be concise and well-explained.
-    Question: ${prompt}
-    Answer:`;
+Structure of the paper:
+- **Part A**: 7 questions, each carrying 2 marks. All questions in this part are compulsory. (Total: 14 marks)
+- **Part B**: 6 questions. Each question has two sub-questions (a and b), each carrying 7 marks. Attempt any 4 questions from this part. (Total: 56 marks)
+
+Only provide the formatted question paper. Do not include answers. Ensure all questions are relevant and well-aligned with the syllabus.`;
+
+    
+    
 
     const imageParts = files.map((file) =>
       fileToGenerativePart(file.path, file.mimetype)
